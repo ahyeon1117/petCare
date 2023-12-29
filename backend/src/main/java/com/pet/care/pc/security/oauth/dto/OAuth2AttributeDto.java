@@ -18,6 +18,7 @@ public class OAuth2AttributeDto {
   private String name; // 이름 정보
   private String picture; // 프로필 사진 정보
   private String provider; // 제공자 정보
+  private String platform;
 
   // 서비스에 따라 OAuth2Attribute 객체를 생성하는 메서드
   public static OAuth2AttributeDto of(
@@ -52,6 +53,7 @@ public class OAuth2AttributeDto {
       .provider(provider)
       .attributes(attributes)
       .attributeKey(attributeKey)
+      .platform("google")
       .build();
   }
 
@@ -78,6 +80,7 @@ public class OAuth2AttributeDto {
       .provider(provider)
       .attributes(kakaoAccount)
       .attributeKey(attributeKey)
+      .platform("kakao")
       .build();
   }
 
@@ -101,6 +104,7 @@ public class OAuth2AttributeDto {
       .attributes(response)
       .provider(provider)
       .attributeKey(attributeKey)
+      .platform("naver")
       .build();
   }
 
@@ -111,6 +115,7 @@ public class OAuth2AttributeDto {
     map.put("key", attributeKey);
     map.put("email", email);
     map.put("provider", provider);
+    map.put("platform", platform);
 
     return map;
   }
