@@ -1,5 +1,6 @@
 package com.pet.care.pc.security.oauth.dto;
 
+import com.pet.care.pc.user.enums.Platform;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AccessLevel;
@@ -53,7 +54,7 @@ public class OAuth2AttributeDto {
       .provider(provider)
       .attributes(attributes)
       .attributeKey(attributeKey)
-      .platform("google")
+      .platform(Platform.GOOGLE.toString())
       .build();
   }
 
@@ -80,7 +81,7 @@ public class OAuth2AttributeDto {
       .provider(provider)
       .attributes(kakaoAccount)
       .attributeKey(attributeKey)
-      .platform("kakao")
+      .platform(Platform.KAKAO.toString())
       .build();
   }
 
@@ -104,7 +105,7 @@ public class OAuth2AttributeDto {
       .attributes(response)
       .provider(provider)
       .attributeKey(attributeKey)
-      .platform("naver")
+      .platform(Platform.NAVER.toString())
       .build();
   }
 
