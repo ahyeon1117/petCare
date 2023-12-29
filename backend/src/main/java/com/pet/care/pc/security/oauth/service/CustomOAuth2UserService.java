@@ -71,6 +71,7 @@ public class CustomOAuth2UserService
         .email(email)
         .nickname(email)
         .role(Role.USER)
+        .platform(memberAttribute.get("platform").toString())
         .build();
       userService.save(newUser);
       // 회원의 권한(회원이 존재하지 않으므로

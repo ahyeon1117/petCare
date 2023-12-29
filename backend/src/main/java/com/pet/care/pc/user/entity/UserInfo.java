@@ -42,6 +42,8 @@ public class UserInfo {
 
   private String introduction;
 
+  private String platform;
+
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
   private Role role;
