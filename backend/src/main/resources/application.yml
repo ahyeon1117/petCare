@@ -1,0 +1,23 @@
+server:
+  port: 1117
+
+spring:
+  profiles:
+    include: security
+  application:
+    name: blog
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 10
+      connection-init-sql: select 1
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5431/postgres
+    username: postgres
+    password: post123!
