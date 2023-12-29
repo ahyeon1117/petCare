@@ -57,9 +57,13 @@ public class CustomOAuth2UserService
 
     // 사용자 email(또는 id) 정보를 가져온다.
     String email = (String) memberAttribute.get("email");
+    String platform = (String) memberAttribute.get("platform");
 
     // 이메일로 가입된 회원인지 조회한다.
-    Optional<UserInfo> findUser = userService.findByEmail(email);
+    Optional<UserInfo> findUser = userService.findByEmailAndPlatform(
+      email,
+      platform
+    );
 
     if (findUser.isEmpty()) {
       // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.

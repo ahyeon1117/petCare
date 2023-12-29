@@ -12,8 +12,11 @@ public class UserService {
   @Autowired
   private UsersRepository usersRepo;
 
-  public Optional<UserInfo> findByEmail(String email) {
-    return usersRepo.findByEmail(email);
+  public Optional<UserInfo> findByEmailAndPlatform(
+    String email,
+    String platform
+  ) {
+    return usersRepo.findByEmailAndPlatform(email, platform);
   }
 
   public void save(UserInfo userInfo) {
