@@ -2,6 +2,7 @@ package com.pet.care.pc.security.oauth.service;
 
 import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
 import com.pet.care.pc.user.entity.UserInfo;
+import com.pet.care.pc.user.enums.Role;
 import com.pet.care.pc.user.service.UserService;
 import java.util.Collections;
 import java.util.Map;
@@ -63,7 +64,16 @@ public class CustomOAuth2UserService
     if (findUser.isEmpty()) {
       // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.
       memberAttribute.put("exist", false);
-      // 회원의 권한(회원이 존재하지 않으므로 기본권한인 ROLE_USER를 넣어준다), 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.
+
+      UserInfo newUser = UserInfo
+        .builder()
+        .oAuth2Id(memberAttribute.get("id").toString())
+        .email(email)
+        .nickname(email)
+        .role(Role.USER)
+        .build();
+      userService.save(newUser);
+      // 회원의 권한(회원이 존재하지 않으므로
       return new DefaultOAuth2User(
         Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
         memberAttribute,
