@@ -1,27 +1,22 @@
 package com.pet.care.pc.security.oauth.service;
 
 import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
+import com.pet.care.pc.user.dto.PrincipalDetail;
 import com.pet.care.pc.user.entity.UserInfo;
 import com.pet.care.pc.user.enums.Role;
 import com.pet.care.pc.user.service.UserService;
-import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CustomOAuth2UserService
-  implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   @Autowired
   private UserService userService;
@@ -29,11 +24,8 @@ public class CustomOAuth2UserService
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest)
     throws OAuth2AuthenticationException {
-    // 기본 OAuth2UserService 객체 생성
-    OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
-
     // OAuth2UserService를 사용하여 OAuth2User 정보를 가져온다.
-    OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
+    OAuth2User oAuth2User = super.loadUser(userRequest);
 
     // 클라이언트 등록 ID(google, naver, kakao)와 사용자 이름 속성을 가져온다.
     String registrationId = userRequest
@@ -60,43 +52,25 @@ public class CustomOAuth2UserService
     String platform = (String) memberAttribute.get("platform");
 
     // 이메일로 가입된 회원인지 조회한다.
-    Optional<UserInfo> findUser = userService.findByEmailAndPlatform(
-      email,
-      platform
-    );
+    UserInfo user = userService.findByEmailAndPlatform(email, platform).get();
 
-    if (findUser.isEmpty()) {
+    if (user == null) {
       // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.
       memberAttribute.put("exist", false);
 
-      UserInfo newUser = UserInfo
-        .builder()
-        .oAuth2Id(memberAttribute.get("id").toString())
-        .email(email)
-        .nickname(email)
-        .role(Role.USER)
-        .platform(memberAttribute.get("platform").toString())
-        .build();
-      userService.save(newUser);
-      // 회원의 권한(회원이 존재하지 않으므로
-      return new DefaultOAuth2User(
-        Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")),
-        memberAttribute,
-        "email"
-      );
+      user =
+        UserInfo
+          .builder()
+          .oAuth2Id(memberAttribute.get("id").toString())
+          .email(email)
+          .nickname(email)
+          .role(Role.USER)
+          .platform(memberAttribute.get("platform").toString())
+          .build();
+      userService.save(user);
     }
 
-    // 회원이 존재할경우, memberAttribute의 exist 값을 true로 넣어준다.
-    memberAttribute.put("exist", true);
     // 회원의 권한과, 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.
-    return new DefaultOAuth2User(
-      Collections.singleton(
-        new SimpleGrantedAuthority(
-          "ROLE_".concat(findUser.get().getRole().toString())
-        )
-      ),
-      memberAttribute,
-      "email"
-    );
+    return new PrincipalDetail(user, oAuth2User.getAttributes());
   }
 }
