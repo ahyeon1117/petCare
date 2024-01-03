@@ -1,7 +1,9 @@
-package com.pet.care.pc.security;
+package com.pet.care.pc.config;
 
+import com.pet.care.pc.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,16 +22,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+  @Autowired
+  private CustomOAuth2UserService oAuth2UserService;
+
   private static final String[] AUTH_WHITELIST = {
     "/login/**",
     "/index.html",
-    "/user/**",
     "/js/**",
     "/css/**",
+    "/error",
     "/html/**",
     "/fonts/**",
     "/images/**",
-    "/error",
     "/oauth2/**",
   };
 
@@ -42,13 +46,23 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .csrf(AbstractHttpConfigurer::disable)
-      .formLogin(login -> login.disable())
-      .httpBasic(basic -> basic.disable())
+      .formLogin(login ->
+        login
+          .loginPage("/login")
+          .loginProcessingUrl("login")
+          .defaultSuccessUrl("/")
+      )
       .sessionManagement(session ->
         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       )
       .authorizeHttpRequests(request ->
         request
+          .requestMatchers("/user/**")
+          .authenticated()
+          .requestMatchers("/manager")
+          .hasAnyRole("ADMIN", "MANAGER")
+          .requestMatchers("/admin")
+          .hasRole("ADMIN")
           .requestMatchers(AUTH_WHITELIST)
           .permitAll()
           .anyRequest()
@@ -56,8 +70,8 @@ public class SecurityConfig {
       )
       .oauth2Login(login ->
         login
-          .authorizationEndpoint(auth -> auth.baseUri("/oauth2/authorization"))
           .loginPage("/login")
+          .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
       )
       .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
