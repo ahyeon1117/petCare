@@ -1,6 +1,6 @@
 package com.pet.care.pc.user.dto;
 
-import com.pet.care.pc.user.entity.UserInfo;
+import com.pet.care.pc.entitiy.UserInfo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;

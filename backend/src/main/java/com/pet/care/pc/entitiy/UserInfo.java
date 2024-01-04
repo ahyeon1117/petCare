@@ -1,4 +1,4 @@
-package com.pet.care.pc.user.entity;
+package com.pet.care.pc.entitiy;
 
 import com.pet.care.pc.user.enums.Role;
 import jakarta.persistence.Column;

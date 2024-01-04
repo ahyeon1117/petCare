@@ -1,9 +1,9 @@
 package com.pet.care.pc.controller;
 
 import com.pet.care.pc.dto.api.Response;
+import com.pet.care.pc.entitiy.UserInfo;
 import com.pet.care.pc.enums.ErrorCode;
 import com.pet.care.pc.exception.CustomException;
-import com.pet.care.pc.user.entity.UserInfo;
 import com.pet.care.pc.user.enums.Platform;
 import com.pet.care.pc.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.pet.care.pc.security.oauth.service;
 
+import com.pet.care.pc.entitiy.UserInfo;
 import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
 import com.pet.care.pc.user.dto.PrincipalDetail;
-import com.pet.care.pc.user.entity.UserInfo;
 import com.pet.care.pc.user.enums.Role;
 import com.pet.care.pc.user.service.UserService;
 import java.util.Map;
