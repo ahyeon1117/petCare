@@ -28,12 +28,14 @@
           </button>
         </form>
         <hr class="mgT12 mgB12" />
-        <button class="mgT12 loginBox_inputArea_kakaoButton">
-          <a href="http://localhost:1117/oauth2/authorization/kakao" />
-        </button>
-        <button class="mgT12 loginBox_inputArea_naverButton">
-          <a href="http://localhost:1117/oauth2/authorization/naver" />
-        </button>
+        <button
+          class="mgT12 loginBox_inputArea_kakaoButton"
+          @click="kakaoLogin"
+        ></button>
+        <button
+          class="mgT12 loginBox_inputArea_naverButton"
+          @click="naverLogin"
+        ></button>
       </div>
     </div>
   </div>
@@ -41,6 +43,7 @@
 <script setup>
 import { watch, reactive } from "vue";
 import { inject } from "vue";
+
 const $router = inject("$router");
 
 const data = reactive({
@@ -84,5 +87,13 @@ const validId = (id) => {
 };
 const validPw = (pw) => {
   return pw.length > 0;
+};
+const kakaoLogin = () => {
+  console.log(window.location);
+  window.location.href = "http://127.0.0.1:1117/oauth2/authorization/kakao";
+  // window.location.replace("/oauth2/authorization/kakao");
+};
+const naverLogin = () => {
+  window.location.replace("/oauth2/authorization/naver");
 };
 </script>

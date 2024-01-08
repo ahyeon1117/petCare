@@ -1,5 +1,7 @@
 package com.pet.care.pc.config;
 
+import com.pet.care.pc.security.jwt.JwtTokenFilter;
+import com.pet.care.pc.security.oauth.filters.RequestFilter;
 import com.pet.care.pc.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,12 @@ public class SecurityConfig {
   @Autowired
   private CustomOAuth2UserService oAuth2UserService;
 
+  @Autowired
+  private RequestFilter requestFilter;
+
   private static final String[] AUTH_WHITELIST = {
     "/login/**",
+    "/user-info",
     "/index.html",
     "/js/**",
     "/css/**",
@@ -46,12 +52,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .csrf(AbstractHttpConfigurer::disable)
-      .formLogin(login ->
-        login
-          .loginPage("/login")
-          .loginProcessingUrl("login")
-          .defaultSuccessUrl("/")
-      )
+      .formLogin(login -> login.loginPage("/login").loginProcessingUrl("login"))
       .sessionManagement(session ->
         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       )
@@ -71,6 +72,7 @@ public class SecurityConfig {
       .oauth2Login(login ->
         login
           .loginPage("/login")
+          .successHandler(requestFilter)
           .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
       )
       .cors(cors -> cors.configurationSource(corsConfigurationSource()));

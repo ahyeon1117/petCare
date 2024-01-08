@@ -1,10 +1,11 @@
 package com.pet.care.pc.security.oauth.filters;
 
-import com.pet.care.pc.security.jwt.JwtProvider;
 import com.pet.care.pc.security.jwt.JwtToken;
+import com.pet.care.pc.security.jwt.JwtTokenProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
 
-  private final JwtProvider jwtUtil;
+  private final JwtTokenProvider jwtUtil;
 
   @Override
   public void onAuthenticationSuccess(
@@ -53,13 +54,14 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
 
       // accessToken을 쿼리스트링에 담는 url을 만들어준다.
       String targetUrl = UriComponentsBuilder
-        .fromUriString("http://localhost:1117/loginSuccess")
+        .fromUriString("http://localhost:1117/login/oauth2/code/naver")
         .queryParam("accessToken", token.getAccessToken())
         .build()
         .encode(StandardCharsets.UTF_8)
         .toUriString();
-      log.info("redirect 준비");
       // 로그인 확인 페이지로 리다이렉트 시킨다.
+      HttpSession session = request.getSession();
+      session.setAttribute("jwtToken", token.getAccessToken());
       getRedirectStrategy().sendRedirect(request, response, targetUrl);
     } else {
       // 회원이 존재하지 않을경우, 서비스 제공자와 email을 쿼리스트링으로 전달하는 url을 만들어준다.

@@ -5,7 +5,9 @@ import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
 import com.pet.care.pc.user.dto.PrincipalDetail;
 import com.pet.care.pc.user.enums.Role;
 import com.pet.care.pc.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -20,6 +22,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private HttpSession httpSession;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -52,12 +57,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String platform = (String) memberAttribute.get("platform");
 
     // 이메일로 가입된 회원인지 조회한다.
-    UserInfo user = userService.findByEmailAndPlatform(email, platform).get();
-
-    if (user == null) {
+    Optional<UserInfo> optionalUser = userService.findByEmailAndPlatform(
+      email,
+      platform
+    );
+    UserInfo user = new UserInfo();
+    if (!optionalUser.isPresent()) {
       // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.
       memberAttribute.put("exist", false);
-
       user =
         UserInfo
           .builder()
@@ -68,6 +75,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .platform(memberAttribute.get("platform").toString())
           .build();
       userService.save(user);
+    } else {
+      memberAttribute.put("exist", true);
+      user = optionalUser.get();
     }
 
     // 회원의 권한과, 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.

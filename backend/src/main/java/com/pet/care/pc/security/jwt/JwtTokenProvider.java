@@ -1,24 +1,30 @@
 package com.pet.care.pc.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class JwtProvider {
-
-  // private final RefreshTokenService tokenService;
+public class JwtTokenProvider {
 
   @Value("${jwt.secretKey}")
   private String secretKey = "secretKey";
@@ -29,6 +35,9 @@ public class JwtProvider {
   protected void init() {
     key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
   }
+
+  @Autowired
+  private UserDetailsService userDetailsService;
 
   // 원래는 return GeneratedToken으로 해야하지만 email은 추 후 추가 예정이기 때문에 String임
 
@@ -89,18 +98,38 @@ public class JwtProvider {
       .compact();
   }
 
-  public boolean verifyToken(String token) {
+  public Authentication getAuthentication(String token) {
+    UserDetails userDetails =
+      this.userDetailsService.loadUserByUsername(getUid(token));
+    return new UsernamePasswordAuthenticationToken(
+      userDetails,
+      "",
+      userDetails.getAuthorities()
+    );
+  }
+
+  public JwtTokenVerify verifyToken(String token) {
+    JwtTokenVerify jwtTokenVerify = new JwtTokenVerify(false, "");
     try {
       Jws<Claims> claims = Jwts
         .parser()
         .verifyWith(key) // 비밀키를 설정하여 파싱한다.
         .build()
         .parseSignedClaims(token); // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
+
       // 토큰의 만료 시간과 현재 시간비교
-      return claims.getPayload().getExpiration().after(new Date()); // 만료 시간이 현재 시간 이후인지 확인하여 유효성 검사 결과를 반환
-    } catch (Exception e) {
-      return false;
+      boolean expired = claims.getPayload().getExpiration().after(new Date());
+      // 만료 시간이 현재 시간 이후인지 확인하여 유효성 검사 결과를 반환
+      if (!expired) {
+        jwtTokenVerify.setErr("different issuer");
+      }
+      jwtTokenVerify.setValid(true);
+    } catch (ExpiredJwtException e) {
+      jwtTokenVerify.setErr("expired token");
+    } catch (JwtException | IllegalArgumentException e) {
+      jwtTokenVerify.setErr("invalid token");
     }
+    return jwtTokenVerify;
   }
 
   // 토큰에서 Email을 추출한다.
@@ -124,5 +153,13 @@ public class JwtProvider {
       .getPayload()
       .getOrDefault("role", String.class)
       .toString();
+  }
+
+  public String resolveToken(HttpServletRequest req) {
+    String bearerToken = req.getHeader("Authorization");
+    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+      return bearerToken.substring(7, bearerToken.length());
+    }
+    return null;
   }
 }
