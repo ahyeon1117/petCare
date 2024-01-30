@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    include: security
+    include: security,swagger
   application:
     name: blog
   jpa:

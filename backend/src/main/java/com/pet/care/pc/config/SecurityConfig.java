@@ -42,6 +42,7 @@ public class SecurityConfig {
     "/images/**",
     "/oauth2/**",
     "/swagger-ui/**",
+    "/api-docs/**",
   };
 
   @Bean
@@ -53,8 +54,7 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
       .csrf(AbstractHttpConfigurer::disable)
-      .formLogin(login ->
-        login.loginProcessingUrl("/login") // .loginPage("/login/page")
+      .formLogin(login -> login.loginProcessingUrl("/login") // .loginPage("/login/page")
       // .defaultSuccessUrl("/") // 성공시 리다이렉
       )
       .sessionManagement(session ->
