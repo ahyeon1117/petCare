@@ -54,7 +54,7 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
 
       // accessToken을 쿼리스트링에 담는 url을 만들어준다.
       String targetUrl = UriComponentsBuilder
-        .fromUriString("http://localhost:1117/login/oauth2/code/naver")
+        .fromUriString("http://localhost:1117/login/test")
         .queryParam("accessToken", token.getAccessToken())
         .build()
         .encode(StandardCharsets.UTF_8)

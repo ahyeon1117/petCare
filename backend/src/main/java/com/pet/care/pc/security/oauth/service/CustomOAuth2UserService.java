@@ -81,6 +81,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     // 회원의 권한과, 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.
-    return new PrincipalDetail(user, oAuth2User.getAttributes());
+    return new PrincipalDetail(user, memberAttribute);
   }
 }

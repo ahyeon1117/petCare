@@ -50,7 +50,7 @@ public class OAuth2AttributeDto {
   ) {
     return OAuth2AttributeDto
       .builder()
-      .email((String) attributes.get("email"))
+      .email((String) attributes.getOrDefault("email", "?"))
       .provider(provider)
       .attributes(attributes)
       .attributeKey(attributeKey)
@@ -77,7 +77,7 @@ public class OAuth2AttributeDto {
 
     return OAuth2AttributeDto
       .builder()
-      .email((String) kakaoAccount.get("email"))
+      .email((String) kakaoAccount.getOrDefault("email", "?"))
       .provider(provider)
       .attributes(kakaoAccount)
       .attributeKey(attributeKey)
@@ -101,7 +101,7 @@ public class OAuth2AttributeDto {
 
     return OAuth2AttributeDto
       .builder()
-      .email((String) response.get("email"))
+      .email((String) response.getOrDefault("email", "?"))
       .attributes(response)
       .provider(provider)
       .attributeKey(attributeKey)

@@ -47,7 +47,7 @@ public class UserInfo {
   @Column(unique = true)
   private String email;
 
-  @Column(unique = true, nullable = false)
+  @Column
   private String nickname;
 
   private String profileImageUrl;
