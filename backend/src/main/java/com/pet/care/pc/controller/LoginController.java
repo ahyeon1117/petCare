@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
   @GetMapping("/login/test")
-  public String login(@RequestParam("accessToken") String accessToken) {
+  private String login(@RequestParam("accessToken") String accessToken) {
     log.info("token = {}", accessToken);
     return accessToken;
   }
 
   @GetMapping("/login/oauth2/code/naver")
-  public String loginSuccess(
+  private String loginSuccess(
     Authentication authentication,
     @AuthenticationPrincipal OAuth2User userDetails
   ) { // DI(의존성 주입)

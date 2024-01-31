@@ -30,12 +30,12 @@ public class UserController {
   private JwtTokenProvider jwtTokenProvider;
 
   @PostMapping("/register")
-  public void postMethodName(@RequestBody UserInfo entity) {
+  private void postMethodName(@RequestBody UserInfo entity) {
     //TODO: process POST request
   }
 
   @GetMapping("/info")
-  public ResponseEntity<Response> getMethodName(
+  private ResponseEntity<Response> getMethodName(
     @RequestParam String email,
     Platform platform
   ) throws NotFoundException {
@@ -69,7 +69,7 @@ public class UserController {
   // }
 
   @GetMapping("/user-info")
-  public ResponseEntity<Response> getUserInfo(
+  private ResponseEntity<Response> getUserInfo(
     OAuth2AuthenticationToken authenticationToken
   ) {
     OAuth2User oAuth2User = (OAuth2User) authenticationToken.getPrincipal();
