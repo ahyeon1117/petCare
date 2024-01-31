@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PetController {
 
   @PostMapping(
-    value = "path",
+    value = "picture",
     produces = "application/json",
     consumes = "multipart/form-data"
   )
