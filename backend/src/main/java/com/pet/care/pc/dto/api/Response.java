@@ -12,13 +12,18 @@ import org.springframework.http.HttpStatus;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+public class Response<T> {
 
   private int resCode;
-  private Object message;
+  private T message;
   private String error;
 
-  public Response success(HttpStatus status, Object message) {
-    return Response.builder().resCode(status.value()).message(message).build();
+  @SuppressWarnings("unchecked")
+  public Response<T> success(HttpStatus status, T message) {
+    return (Response<T>) Response
+      .builder()
+      .resCode(status.value())
+      .message(message)
+      .build();
   }
 }

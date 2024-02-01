@@ -7,6 +7,7 @@ import com.pet.care.pc.exception.CustomException;
 import com.pet.care.pc.security.jwt.JwtTokenProvider;
 import com.pet.care.pc.user.enums.Platform;
 import com.pet.care.pc.user.service.UserService;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -35,13 +36,13 @@ public class UserController {
   }
 
   @GetMapping("/info")
-  private ResponseEntity<Response> getMethodName(
+  private ResponseEntity<Response<UserInfo>> getMethodName(
     @RequestParam String email,
     Platform platform
   ) throws NotFoundException {
-    return new ResponseEntity<Response>(
+    return new ResponseEntity<Response<UserInfo>>(
       Response
-        .builder()
+        .<UserInfo>builder()
         .message(
           userService
             .findByEmailAndPlatform(email, platform.toString())
@@ -69,13 +70,13 @@ public class UserController {
   // }
 
   @GetMapping("/user-info")
-  private ResponseEntity<Response> getUserInfo(
+  private ResponseEntity<Response<Map<String, Object>>> getUserInfo(
     OAuth2AuthenticationToken authenticationToken
   ) {
     OAuth2User oAuth2User = (OAuth2User) authenticationToken.getPrincipal();
-    return new ResponseEntity<Response>(
+    return new ResponseEntity<Response<Map<String, Object>>>(
       Response
-        .builder()
+        .<Map<String, Object>>builder()
         .message(oAuth2User.getAttributes())
         .error(null)
         .resCode(HttpStatus.ACCEPTED.value())

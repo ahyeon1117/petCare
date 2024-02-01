@@ -15,7 +15,7 @@ public class PetController {
     produces = "application/json",
     consumes = "multipart/form-data"
   )
-  private ResponseEntity<Response> petPicture(
+  private ResponseEntity<Response<Object>> petPicture(
     @RequestBody MultiValueMap<String, String> data
   ) {
     return null;
