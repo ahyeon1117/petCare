@@ -1,4 +1,4 @@
-package com.pet.care.pc.entitiy;
+package com.pet.care.pc.entitiy.order;
 
 import com.pet.care.pc.enums.StatusEnum;
 import java.time.LocalDateTime;

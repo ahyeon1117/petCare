@@ -10,6 +10,9 @@ Pet Care Project
 ### ERD
 [ERD 작업중인 주소](https://dbdiagram.io/d/pet-65603bda3be1495787a43f96)
 
+### ERD
+![PetImg](./img/erd.png)
+
 ### flowChart
 
 > login Flow
@@ -23,7 +26,9 @@ BE(Spring Boot)
 Kakao(Login Kakao)
 PG(PG DB)
 
-client --> FE --> |login| BE --> | token generate | Kakao & Naver & PG
+client --> FE --> |login| BE --> | access Req |  Kakao & Naver & PG
+Kakao & Naver & PG --> BE
+BE --> | Token Return | Client
 
 ```
 
