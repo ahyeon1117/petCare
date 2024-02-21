@@ -5,7 +5,6 @@ import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
 import com.pet.care.pc.user.dto.PrincipalDetail;
 import com.pet.care.pc.user.enums.Role;
 import com.pet.care.pc.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
   @Autowired
   private UserService userService;
-
-  @Autowired
-  private HttpSession httpSession;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest)

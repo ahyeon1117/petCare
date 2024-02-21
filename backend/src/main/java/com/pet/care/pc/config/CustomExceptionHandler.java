@@ -1,4 +1,4 @@
-package com.pet.care.pc.controller;
+package com.pet.care.pc.config;
 
 import com.pet.care.pc.dto.api.Response;
 import com.pet.care.pc.exception.CustomException;
