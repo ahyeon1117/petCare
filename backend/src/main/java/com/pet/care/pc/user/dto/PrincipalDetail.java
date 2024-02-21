@@ -1,6 +1,6 @@
 package com.pet.care.pc.user.dto;
 
-import com.pet.care.pc.entitiy.UserInfo;
+import com.pet.care.pc.entitiy.user.Users;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -12,18 +12,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Data
 public class PrincipalDetail implements UserDetails, OAuth2User {
 
-  private UserInfo user;
+  private Users user;
   private Map<String, Object> attributes;
 
   //생성자
 
   //일반 로그인
-  public PrincipalDetail(UserInfo user) {
+  public PrincipalDetail(Users user) {
     this.user = user;
   }
 
   //OAuth 로그인
-  public PrincipalDetail(UserInfo user, Map<String, Object> attributes) {
+  public PrincipalDetail(Users user, Map<String, Object> attributes) {
     this.user = user;
     this.attributes = attributes;
   }
@@ -57,12 +57,12 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
 
   @Override
   public String getPassword() {
-    return user.getPassword();
+    return user.getPasswd();
   }
 
   @Override
   public String getUsername() {
-    return user.getNickname();
+    return user.getName();
   }
 
   @Override

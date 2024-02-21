@@ -1,6 +1,5 @@
 package com.pet.care.pc.config;
 
-import com.pet.care.pc.security.jwt.JwtTokenFilter;
 import com.pet.care.pc.security.oauth.filters.RequestFilter;
 import com.pet.care.pc.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;

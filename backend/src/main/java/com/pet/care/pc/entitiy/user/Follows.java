@@ -1,6 +1,5 @@
-package com.pet.care.pc.entitiy.pet;
+package com.pet.care.pc.entitiy.user;
 
-import com.pet.care.pc.entitiy.user.Users;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -9,15 +8,13 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Pet {
+public class Follows {
 
+  @Id
   @ManyToOne
   @JoinColumn(name = "user_id")
   private Users user;
 
-  @Id
-  private long petId;
-
-  private String age;
-  private String gender;
+  private long following_user_id;
+  private long followed_user_id;
 }

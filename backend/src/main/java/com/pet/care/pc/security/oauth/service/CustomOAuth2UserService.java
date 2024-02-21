@@ -1,6 +1,6 @@
 package com.pet.care.pc.security.oauth.service;
 
-import com.pet.care.pc.entitiy.UserInfo;
+import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
 import com.pet.care.pc.user.dto.PrincipalDetail;
 import com.pet.care.pc.user.enums.Role;
@@ -53,20 +53,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String platform = (String) memberAttribute.get("platform");
 
     // 이메일로 가입된 회원인지 조회한다.
-    Optional<UserInfo> optionalUser = userService.findByEmailAndPlatform(
+    Optional<Users> optionalUser = userService.findByEmailAndPlatform(
       email,
       platform
     );
-    UserInfo user = new UserInfo();
+    Users user = new Users();
     if (!optionalUser.isPresent()) {
       // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.
       memberAttribute.put("exist", false);
       user =
-        UserInfo
+        Users
           .builder()
-          .oAuth2Id(memberAttribute.get("id").toString())
           .email(email)
-          .nickname(email)
+          .loginId(email)
           .role(Role.USER)
           .platform(memberAttribute.get("platform").toString())
           .build();

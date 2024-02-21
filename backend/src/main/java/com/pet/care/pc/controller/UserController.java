@@ -1,10 +1,9 @@
 package com.pet.care.pc.controller;
 
 import com.pet.care.pc.dto.api.Response;
-import com.pet.care.pc.entitiy.UserInfo;
+import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.ErrorCode;
 import com.pet.care.pc.exception.CustomException;
-import com.pet.care.pc.security.jwt.JwtTokenProvider;
 import com.pet.care.pc.user.enums.Platform;
 import com.pet.care.pc.user.service.UserService;
 import java.util.Map;
@@ -27,22 +26,19 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
-
   @PostMapping("/register")
-  private void postMethodName(@RequestBody UserInfo entity) {
+  private void postMethodName(@RequestBody Users entity) {
     //TODO: process POST request
   }
 
   @GetMapping("/info")
-  private ResponseEntity<Response<UserInfo>> getMethodName(
+  private ResponseEntity<Response<Users>> getMethodName(
     @RequestParam String email,
     Platform platform
   ) throws NotFoundException {
-    return new ResponseEntity<Response<UserInfo>>(
+    return new ResponseEntity<Response<Users>>(
       Response
-        .<UserInfo>builder()
+        .<Users>builder()
         .message(
           userService
             .findByEmailAndPlatform(email, platform.toString())
@@ -54,20 +50,6 @@ public class UserController {
       HttpStatusCode.valueOf(200)
     );
   }
-
-  // @GetMapping("/login")
-  // public ResponseEntity<Response> login(@RequestParam String code)
-  //   throws NotFoundException {
-  //   return new ResponseEntity<Response>(
-  //     Response
-  //       .builder()
-  //       .message(jwtTokenProvider.generateAccessToken(code, code) )
-  //       .error(null)
-  //       .resCode(HttpStatus.ACCEPTED.value())
-  //       .build(),
-  //     HttpStatusCode.valueOf(200)
-  //   );
-  // }
 
   @GetMapping("/user-info")
   private ResponseEntity<Response<Map<String, Object>>> getUserInfo(
