@@ -18,18 +18,11 @@ Pet Care Project
 > login Flow
 
 ```mermaid
+flowchart TB
 
-flowchart LR
-
-FE(Flutter)
-BE(Spring Boot)
-Kakao(Login Kakao)
-PG(PG DB)
-
-client --> FE --> |login| BE --> | access Req |  Kakao & Naver & PG
+client --> FE -->  BE --> Kakao & Naver & PG
 Kakao & Naver & PG --> BE
-BE --> | Token Return | Client
-
+BE --> FE
 ```
-
+---
 > Pet
