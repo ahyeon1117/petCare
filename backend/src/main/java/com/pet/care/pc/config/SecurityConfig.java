@@ -49,39 +49,39 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http
-      .csrf(AbstractHttpConfigurer::disable)
-      .formLogin(login -> login.loginProcessingUrl("/login") // .loginPage("/login/page")
-      // .defaultSuccessUrl("/") // 성공시 리다이렉
-      )
-      .sessionManagement(session ->
-        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      )
-      .authorizeHttpRequests(request ->
-        request
-          .requestMatchers("/user/**")
-          .authenticated()
-          .requestMatchers("/manager")
-          .hasAnyRole("ADMIN", "MANAGER")
-          .requestMatchers("/admin")
-          .hasRole("ADMIN")
-          .requestMatchers(AUTH_WHITELIST)
-          .permitAll()
-          .anyRequest()
-          .authenticated()
-      )
-      .oauth2Login(login ->
-        login
-          // .loginPage("/login/page")
-          .successHandler(requestFilter)
-          .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
-      )
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+  // @Bean
+  // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  //   http
+  //     .csrf(AbstractHttpConfigurer::disable)
+  //     .formLogin(login -> login.loginProcessingUrl("/login") // .loginPage("/login/page")
+  //     // .defaultSuccessUrl("/") // 성공시 리다이렉
+  //     )
+  //     .sessionManagement(session ->
+  //       session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+  //     )
+  //     .authorizeHttpRequests(request ->
+  //       request
+  //         .requestMatchers("/user/**")
+  //         .authenticated()
+  //         .requestMatchers("/manager")
+  //         .hasAnyRole("ADMIN", "MANAGER")
+  //         .requestMatchers("/admin")
+  //         .hasRole("ADMIN")
+  //         .requestMatchers(AUTH_WHITELIST)
+  //         .permitAll()
+  //         .anyRequest()
+  //         .authenticated()
+  //     )
+  //     .oauth2Login(login ->
+  //       login
+  //         // .loginPage("/login/page")
+  //         .successHandler(requestFilter)
+  //         .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+  //     )
+  //     .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
-    return http.build();
-  }
+  //   return http.build();
+  // }
 
   private CorsConfigurationSource corsConfigurationSource() {
     // Very permissive CORS config...

@@ -32,13 +32,13 @@ public class SwaggerConfig {
       )
       .components(
         new Components()
-          .addSecuritySchemes(
-            "bearer-key",
-            new SecurityScheme()
-              .type(Type.HTTP)
-              .scheme("bearer")
-              .bearerFormat("JWT")
-          )
+        // .addSecuritySchemes(
+        //   "bearer-key",
+        //   new SecurityScheme()
+        //     .type(Type.HTTP)
+        //     .scheme("bearer")
+        //     .bearerFormat("JWT")
+        // )
       );
   }
 }
