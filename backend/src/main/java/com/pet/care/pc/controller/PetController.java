@@ -4,6 +4,8 @@ import com.pet.care.pc.dto.api.Response;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.service.PetService;
 import com.pet.care.pc.utils.ResponseUtils;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -33,6 +35,8 @@ public class PetController {
     return null;
   }
 
+  @Hidden
+  @Operation(summary = "모든 Pet 정보 조회", description = "모든 Pet 정보 조회")
   @GetMapping(produces = "application/json", consumes = "multipart/form-data")
   private ResponseEntity<Response<List<Pet>>> findAll() {
     try {
@@ -54,6 +58,7 @@ public class PetController {
     }
   }
 
+  @Operation(summary = "Pet 정보 조회", description = "Pet 정보 조회")
   @GetMapping(produces = "application/json", consumes = "multipart/form-data")
   private ResponseEntity<Response<Pet>> findByPetId(
     @RequestParam("petId") Long petId
