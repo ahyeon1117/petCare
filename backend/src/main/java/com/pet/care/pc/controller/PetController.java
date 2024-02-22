@@ -3,9 +3,9 @@ package com.pet.care.pc.controller;
 import com.pet.care.pc.dto.api.Response;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.service.PetService;
+import com.pet.care.pc.utils.ResponseUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -37,14 +37,17 @@ public class PetController {
   private ResponseEntity<Response<List<Pet>>> findAll() {
     try {
       List<Pet> pet = service.findAll();
+
+      int resCode = ResponseUtils.getResCode(pet);
+
       return new ResponseEntity<Response<List<Pet>>>(
         Response
           .<List<Pet>>builder()
           .message(pet)
           .error(null)
-          .resCode(HttpStatus.ACCEPTED.value())
+          .resCode(resCode)
           .build(),
-        HttpStatusCode.valueOf(200)
+        HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
       throw e;
@@ -57,14 +60,17 @@ public class PetController {
   ) {
     try {
       Pet pet = service.findByPetId(petId);
+
+      int resCode = ResponseUtils.getResCode(pet);
+
       return new ResponseEntity<Response<Pet>>(
         Response
           .<Pet>builder()
           .message(pet)
           .error(null)
-          .resCode(HttpStatus.ACCEPTED.value())
+          .resCode(resCode)
           .build(),
-        HttpStatusCode.valueOf(200)
+        HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
       throw e;
