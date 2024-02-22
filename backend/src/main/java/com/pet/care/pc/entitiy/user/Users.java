@@ -1,6 +1,6 @@
 package com.pet.care.pc.entitiy.user;
 
-import com.pet.care.pc.entitiy.order.Order;
+import com.pet.care.pc.entitiy.order.Orders;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.entitiy.post.Post;
 import com.pet.care.pc.user.enums.Role;
@@ -69,7 +69,7 @@ public class Users {
     cascade = CascadeType.ALL,
     fetch = FetchType.LAZY
   )
-  private List<Order> orders;
+  private List<Orders> orders;
 
   private String passwd;
 
