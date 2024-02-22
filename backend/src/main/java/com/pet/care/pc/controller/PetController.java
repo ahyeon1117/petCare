@@ -37,7 +37,7 @@ public class PetController {
 
   @Hidden
   @Operation(summary = "모든 Pet 정보 조회", description = "모든 Pet 정보 조회")
-  @GetMapping(produces = "application/json", consumes = "multipart/form-data")
+  @GetMapping(value = "info", produces = "application/json")
   private ResponseEntity<Response<List<Pet>>> findAll() {
     try {
       List<Pet> pet = service.findAll();
@@ -59,7 +59,7 @@ public class PetController {
   }
 
   @Operation(summary = "Pet 정보 조회", description = "Pet 정보 조회")
-  @GetMapping(produces = "application/json", consumes = "multipart/form-data")
+  @GetMapping(value = "info", produces = "application/json")
   private ResponseEntity<Response<Pet>> findByPetId(
     @RequestParam("petId") Long petId
   ) {
