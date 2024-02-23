@@ -14,10 +14,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/v1/pet")
+@RestController
+@RequestMapping("/api/v1/pet")
 public class PetController {
 
   @Autowired
@@ -28,7 +30,7 @@ public class PetController {
     produces = "application/json",
     consumes = "multipart/form-data"
   )
-  private ResponseEntity<Response<Object>> petPicture(
+  public ResponseEntity<Response<Object>> petPicture(
     @RequestBody MultiValueMap<String, String> data,
     @RequestParam("petId") Long petId
   ) {
@@ -36,9 +38,9 @@ public class PetController {
   }
 
   @Hidden
+  @GetMapping(value = "all")
   @Operation(summary = "모든 Pet 정보 조회", description = "모든 Pet 정보 조회")
-  @GetMapping(value = "info", produces = "application/json")
-  private ResponseEntity<Response<List<Pet>>> findAll() {
+  public ResponseEntity<Response<List<Pet>>> findAll() {
     try {
       List<Pet> pet = service.findAll();
 
@@ -59,8 +61,7 @@ public class PetController {
   }
 
   @Operation(summary = "Pet 정보 조회", description = "Pet 정보 조회")
-  @GetMapping(value = "info", produces = "application/json")
-  private ResponseEntity<Response<Pet>> findByPetId(
+  public ResponseEntity<Response<Pet>> findByPetId(
     @RequestParam("petId") Long petId
   ) {
     try {
