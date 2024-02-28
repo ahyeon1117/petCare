@@ -2,7 +2,7 @@
 Pet Care Project
 
 ## 환경 구성
-1. cd docker
+1. cd database
 2. docker-compose up -d
 3. spring boot run
 
@@ -16,13 +16,14 @@ Pet Care Project
 ### flowChart
 
 > login Flow
-
+---
 ```mermaid
 flowchart TB
 
-client --> FE -->  BE --> Kakao & Naver & PG
+Web-client & Flutter-client --> FE -->  BE --> Kakao & Naver & PG
 Kakao & Naver & PG --> BE
 BE --> FE
 ```
 ---
+
 > Pet
