@@ -21,3 +21,7 @@ spring:
     url: jdbc:postgresql://127.0.0.1:5431/postgres
     username: postgres
     password: post123!
+
+pet:
+  path:
+    profileImg: C:\PetCare\image
