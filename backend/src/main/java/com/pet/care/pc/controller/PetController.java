@@ -34,8 +34,15 @@ public class PetController {
     produces = "application/json",
     consumes = "multipart/form-data"
   )
-  public ResponseEntity<Response<Object>> petPicture(
+  public ResponseEntity<Response<Object>> imgUpload(
     @RequestBody MultipartFile data,
+    @RequestParam("petId") Long petId
+  ) {
+    return null;
+  }
+
+  @GetMapping(value = "picture")
+  public ResponseEntity<Response<Object>> imgDownload(
     @RequestParam("petId") Long petId
   ) {
     return null;

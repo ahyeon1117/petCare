@@ -32,7 +32,6 @@ public class ProductController {
   public ResponseEntity<Response<List<Products>>> findAll() {
     try {
       List<Products> data = service.findAll();
-
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
