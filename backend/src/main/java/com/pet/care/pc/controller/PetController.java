@@ -42,7 +42,10 @@ public class PetController {
 
   @Hidden
   @GetMapping(value = "all")
-  @Operation(summary = "모든 Pet 정보 조회", description = "모든 Pet 정보 조회")
+  @Operation(
+    summary = "모든 애완동물 정보 조회",
+    description = "모든 애완동물 정보 조회"
+  )
   public ResponseEntity<Response<List<Pet>>> findAll() {
     try {
       List<Pet> pet = service.findAll();
@@ -63,7 +66,7 @@ public class PetController {
     }
   }
 
-  @Operation(summary = "Pet 정보 조회", description = "Pet 정보 조회")
+  @Operation(summary = "애완동물 정보 조회", description = "애완동물 정보 조회")
   public ResponseEntity<Response<Pet>> findByPetId(
     @RequestParam("petId") Long petId
   ) {

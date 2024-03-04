@@ -1,4 +1,4 @@
-package com.pet.care.pc.entitiy.order;
+package com.pet.care.pc.entitiy;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
