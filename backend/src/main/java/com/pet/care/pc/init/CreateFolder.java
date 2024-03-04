@@ -1,7 +1,7 @@
 package com.pet.care.pc.init;
 
+import com.pet.care.pc.utils.FileUtils;
 import jakarta.annotation.PostConstruct;
-import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +13,6 @@ public class CreateFolder {
 
   @PostConstruct
   private void profileImgPathInit() {
-    File petDir = new File(petImgPath);
-    if (!petDir.exists()) {
-      petDir.mkdirs();
-    }
+    FileUtils.generateFolder(petImgPath);
   }
 }
