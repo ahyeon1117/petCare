@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
+@SuppressWarnings("unchecked")
 @RequestMapping("/api/v1/pet")
 public class PetController {
 
@@ -51,14 +52,8 @@ public class PetController {
       List<Pet> pet = service.findAll();
 
       int resCode = ResponseUtils.getResCode(pet);
-
-      return new ResponseEntity<Response<List<Pet>>>(
-        Response
-          .<List<Pet>>builder()
-          .message(pet)
-          .error(null)
-          .resCode(resCode)
-          .build(),
+      return new ResponseEntity<>(
+        (Response<List<Pet>>) ResponseUtils.response(null, pet),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -71,17 +66,11 @@ public class PetController {
     @RequestParam("petId") Long petId
   ) {
     try {
-      Pet pet = service.findByPetId(petId);
+      Pet data = service.findByPetId(petId);
+      int resCode = ResponseUtils.getResCode(data);
 
-      int resCode = ResponseUtils.getResCode(pet);
-
-      return new ResponseEntity<Response<Pet>>(
-        Response
-          .<Pet>builder()
-          .message(pet)
-          .error(null)
-          .resCode(resCode)
-          .build(),
+      return new ResponseEntity<>(
+        (Response<Pet>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

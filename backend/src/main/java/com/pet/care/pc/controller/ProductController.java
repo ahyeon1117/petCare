@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@SuppressWarnings("unchecked")
 @RequestMapping("/api/v1/product")
 public class ProductController {
 
@@ -30,17 +31,12 @@ public class ProductController {
   )
   public ResponseEntity<Response<List<Products>>> findAll() {
     try {
-      List<Products> result = service.findAll();
+      List<Products> data = service.findAll();
 
-      int resCode = ResponseUtils.getResCode(result);
+      int resCode = ResponseUtils.getResCode(data);
 
-      return new ResponseEntity<Response<List<Products>>>(
-        Response
-          .<List<Products>>builder()
-          .message(result)
-          .error(null)
-          .resCode(resCode)
-          .build(),
+      return new ResponseEntity<>(
+        (Response<List<Products>>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -55,17 +51,11 @@ public class ProductController {
     @RequestParam("id") Long id
   ) {
     try {
-      Products result = service.findById(id);
+      Products data = service.findById(id);
+      int resCode = ResponseUtils.getResCode(data);
 
-      int resCode = ResponseUtils.getResCode(result);
-
-      return new ResponseEntity<Response<Products>>(
-        Response
-          .<Products>builder()
-          .message(result)
-          .error(null)
-          .resCode(resCode)
-          .build(),
+      return new ResponseEntity<>(
+        (Response<Products>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

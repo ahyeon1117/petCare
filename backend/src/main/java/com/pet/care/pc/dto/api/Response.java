@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
@@ -17,13 +16,4 @@ public class Response<T> {
   private int resCode;
   private T message;
   private String error;
-
-  @SuppressWarnings("unchecked")
-  public Response<T> success(HttpStatus status, T message) {
-    return (Response<T>) Response
-      .builder()
-      .resCode(status.value())
-      .message(message)
-      .build();
-  }
 }
