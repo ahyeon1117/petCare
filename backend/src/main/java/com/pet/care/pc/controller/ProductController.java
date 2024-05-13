@@ -44,7 +44,7 @@ public class ProductController {
   }
 
   @Hidden
-  @GetMapping(value = "all")
+  @GetMapping(value = "/all/search")
   @Operation(summary = "상품 정보 조회", description = "상품 정보 조회")
   public ResponseEntity<Response<Products>> findAll(
     @RequestParam("id") Long id
