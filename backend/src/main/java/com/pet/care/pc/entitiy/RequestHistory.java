@@ -1,6 +1,5 @@
 package com.pet.care.pc.entitiy;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -43,9 +42,7 @@ public class RequestHistory {
   private String url;
 
   private String methods;
-
-  @Column(columnDefinition = "TEXT")
-  private String body;
+  private String status;
 
   @CreatedDate
   private LocalDateTime createdAt;

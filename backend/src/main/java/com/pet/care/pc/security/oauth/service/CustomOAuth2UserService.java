@@ -8,7 +8,6 @@ import com.pet.care.pc.user.service.UserService;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -19,8 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest)
@@ -50,6 +48,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 사용자 email(또는 id) 정보를 가져온다.
     String email = (String) memberAttribute.get("email");
+    String name = (String) memberAttribute.get("name");
     String platform = (String) memberAttribute.get("platform");
 
     // 이메일로 가입된 회원인지 조회한다.
@@ -57,25 +56,25 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       email,
       platform
     );
-    Users user = new Users();
+    Users user;
+
     if (!optionalUser.isPresent()) {
-      // 회원이 존재하지 않을경우, memberAttribute의 exist 값을 false로 넣어준다.
-      memberAttribute.put("exist", false);
+      // 회원이 존재하지 않을 경우 회원을 생성한다.
       user =
         Users
           .builder()
           .email(email)
-          .loginId(email)
+          .name(name)
+          .loginId(email) // 로그인 ID로 사용할 값 설정 필요
           .role(Role.USER)
-          .platform(memberAttribute.get("platform").toString())
+          .platform(platform)
           .build();
-      userService.save(user);
+      user = userService.save(user);
     } else {
-      memberAttribute.put("exist", true);
       user = optionalUser.get();
     }
 
-    // 회원의 권한과, 회원속성, 속성이름을 이용해 DefaultOAuth2User 객체를 생성해 반환한다.
+    // PrincipalDetail 객체를 생성하여 반환한다.
     return new PrincipalDetail(user, memberAttribute);
   }
 }

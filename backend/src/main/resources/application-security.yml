@@ -22,10 +22,10 @@ spring:
           naver:
             client-id: AF2_9G_PJHt740lWvLvL
             client-secret: m5qhMdsH3V
-            # scope:
-            #   - name
-            #   - email
-            #   - profile_image
+            scope:
+              - name
+              - email
+              - profile_image
             client-name: Naver # 클라이언트 네임은 구글 페이스북도 대문자로 시작하더라.
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:1117/login/oauth2/code/naver

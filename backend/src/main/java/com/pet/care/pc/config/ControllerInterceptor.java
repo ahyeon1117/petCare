@@ -2,13 +2,11 @@ package com.pet.care.pc.config;
 
 import com.pet.care.pc.entitiy.RequestHistory;
 import com.pet.care.pc.service.RequestHistoryService;
-import com.pet.care.pc.utils.RequestUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,8 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class ControllerInterceptor implements HandlerInterceptor {
 
-  @Autowired
-  private RequestHistoryService service;
+  private final RequestHistoryService service;
 
   @Override
   public void afterCompletion(
@@ -44,9 +41,9 @@ public class ControllerInterceptor implements HandlerInterceptor {
       service.save(
         RequestHistory
           .builder()
-          .body(RequestUtils.getBody(httpServletRequest))
           .methods(httpServletRequest.getMethod())
           .url(httpServletRequest.getRequestURL().toString())
+          .status(String.valueOf(httpServletResponse.getStatus()))
           .build()
       );
     } catch (IOException e) {

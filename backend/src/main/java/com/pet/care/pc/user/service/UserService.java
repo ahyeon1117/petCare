@@ -20,8 +20,8 @@ public class UserService implements UserDetailsService {
     return usersRepo.findByEmailAndPlatform(email, platform);
   }
 
-  public void save(Users userInfo) {
-    usersRepo.save(userInfo);
+  public Users save(Users userInfo) {
+    return usersRepo.save(userInfo);
   }
 
   @Override

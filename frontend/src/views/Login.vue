@@ -94,6 +94,6 @@ const kakaoLogin = () => {
   // window.location.replace("/oauth2/authorization/kakao");
 };
 const naverLogin = () => {
-  window.location.replace("/oauth2/authorization/naver");
+  window.location.href = "http://127.0.0.1:1117/oauth2/authorization/naver";
 };
 </script>

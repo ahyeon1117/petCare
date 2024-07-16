@@ -1,6 +1,5 @@
 package com.pet.care.pc.config;
 
-import com.pet.care.pc.security.oauth.filters.RequestFilter;
 import com.pet.care.pc.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +24,6 @@ public class SecurityConfig {
 
   @Autowired
   private CustomOAuth2UserService oAuth2UserService;
-
-  @Autowired
-  private RequestFilter requestFilter;
 
   private static final String[] AUTH_WHITELIST = {
     "/**",
@@ -72,10 +68,13 @@ public class SecurityConfig {
           .anyRequest()
           .authenticated()
       )
+      .formLogin(formLogin ->
+        formLogin.loginPage("/login").defaultSuccessUrl("/", true)
+      )
       .oauth2Login(login ->
         login
-          // .loginPage("/login/page")
-          .successHandler(requestFilter)
+          .loginPage("/login")
+          .defaultSuccessUrl("/", true)
           .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
       )
       .cors(cors -> cors.configurationSource(corsConfigurationSource()));

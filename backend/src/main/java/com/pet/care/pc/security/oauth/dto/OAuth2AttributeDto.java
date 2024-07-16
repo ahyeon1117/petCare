@@ -79,6 +79,7 @@ public class OAuth2AttributeDto {
       .builder()
       .email((String) kakaoAccount.getOrDefault("email", "?"))
       .provider(provider)
+      .name((String) kakaoAccount.getOrDefault("profile_nickname", "?"))
       .attributes(kakaoAccount)
       .attributeKey(attributeKey)
       .platform(Platform.KAKAO.toString())
@@ -104,6 +105,7 @@ public class OAuth2AttributeDto {
       .email((String) response.getOrDefault("email", "?"))
       .attributes(response)
       .provider(provider)
+      .name((String) response.getOrDefault("name", "?"))
       .attributeKey(attributeKey)
       .platform(Platform.NAVER.toString())
       .build();
@@ -114,6 +116,7 @@ public class OAuth2AttributeDto {
     Map<String, Object> map = new HashMap<>();
     map.put("id", attributeKey);
     map.put("key", attributeKey);
+    map.put("name", name);
     map.put("email", email);
     map.put("provider", provider);
     map.put("platform", platform);
