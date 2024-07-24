@@ -1,8 +1,8 @@
 package com.pet.care.pc.entitiy.user;
 
-import com.pet.care.pc.entitiy.order.Orders;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.entitiy.post.Post;
+import com.pet.care.pc.entitiy.shopping.order.Orders;
 import com.pet.care.pc.user.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

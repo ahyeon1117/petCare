@@ -1,4 +1,4 @@
-package com.pet.care.pc.entitiy.order;
+package com.pet.care.pc.entitiy.shopping.order;
 
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.StatusEnum;

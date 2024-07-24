@@ -89,9 +89,7 @@ const validPw = (pw) => {
   return pw.length > 0;
 };
 const kakaoLogin = () => {
-  console.log(window.location);
   window.location.href = "http://127.0.0.1:1117/oauth2/authorization/kakao";
-  // window.location.replace("/oauth2/authorization/kakao");
 };
 const naverLogin = () => {
   window.location.href = "http://127.0.0.1:1117/oauth2/authorization/naver";

@@ -1,6 +1,6 @@
 package com.pet.care.pc.service;
 
-import com.pet.care.pc.entitiy.Products;
+import com.pet.care.pc.entitiy.shopping.product.Products;
 import com.pet.care.pc.repository.jpa.ProductsRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

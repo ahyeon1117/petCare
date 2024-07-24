@@ -1,7 +1,7 @@
 package com.pet.care.pc.controller;
 
 import com.pet.care.pc.dto.api.Response;
-import com.pet.care.pc.entitiy.Products;
+import com.pet.care.pc.entitiy.shopping.product.Products;
 import com.pet.care.pc.service.ProductService;
 import com.pet.care.pc.utils.ResponseUtils;
 import io.swagger.v3.oas.annotations.Hidden;

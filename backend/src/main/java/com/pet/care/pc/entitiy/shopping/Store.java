@@ -1,4 +1,4 @@
-package com.pet.care.pc.entitiy;
+package com.pet.care.pc.entitiy.shopping;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Products {
+public class Store {
 
   @Id
-  private long id;
+  private Long id;
 
   private String name;
-  private String price;
   private String description;
+  private String url;
 }

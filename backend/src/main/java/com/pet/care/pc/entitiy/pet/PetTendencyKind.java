@@ -12,5 +12,5 @@ public class PetTendencyKind {
   private Integer id;
 
   private String topic;
-  private String desc;
+  private String description;
 }
