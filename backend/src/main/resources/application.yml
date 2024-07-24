@@ -26,6 +26,6 @@ spring:
 pet:
   path:
     profileImg: C:\PetCare\image
-logging:
-  level:
-    root: DEBUG
+# logging:
+#   level:
+#     root: DEBUG

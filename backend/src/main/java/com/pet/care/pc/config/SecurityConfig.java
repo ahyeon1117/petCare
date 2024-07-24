@@ -56,7 +56,7 @@ public class SecurityConfig {
       // .defaultSuccessUrl("/") // 성공시 리다이렉
       )
       .sessionManagement(session ->
-        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
       )
       .authorizeHttpRequests(request ->
         request
@@ -71,15 +71,18 @@ public class SecurityConfig {
           .anyRequest()
           .authenticated()
       )
-      .formLogin(formLogin ->
-        formLogin.loginPage("/").defaultSuccessUrl("/login")
-      )
+      .formLogin(formLogin -> formLogin.loginPage("/"))
       .oauth2Login(login ->
         login
           .loginPage("/")
           .successHandler(requestFilter)
-          .defaultSuccessUrl("/login/oauth2")
           .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2UserService))
+      )
+      .logout(logout ->
+        logout
+          .logoutUrl("logout")
+          .logoutSuccessUrl("/")
+          .deleteCookies("JESSIONID")
       )
       .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
@@ -93,7 +96,7 @@ public class SecurityConfig {
     configuration.setAllowedMethods(List.of("*"));
     configuration.setAllowedHeaders(List.of("*"));
     configuration.setExposedHeaders(List.of("*"));
-
+    configuration.setAllowCredentials(true);
     // Limited to API routes (neither actuator nor Swagger-UI)
     final var source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);

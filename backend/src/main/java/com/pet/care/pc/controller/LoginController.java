@@ -2,6 +2,7 @@ package com.pet.care.pc.controller;
 
 import com.pet.care.pc.user.dto.PrincipalDetail;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,7 +33,10 @@ public class LoginController {
   }
 
   @GetMapping("/oauth2")
-  private RedirectView oauthLoginSuccess(HttpServletRequest request) {
+  private RedirectView oauthLoginSuccess(
+    HttpServletRequest req,
+    HttpServletResponse res
+  ) {
     return new RedirectView("/");
   }
 }
