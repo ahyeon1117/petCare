@@ -1,6 +1,6 @@
 package com.pet.care.pc.controller;
 
-import com.pet.care.pc.dto.api.Response;
+import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.ErrorCode;
 import com.pet.care.pc.exception.CustomException;
@@ -34,12 +34,12 @@ public class UserController {
   }
 
   @GetMapping("/info")
-  private ResponseEntity<Response<Users>> getMethodName(
+  private ResponseEntity<CommonResponse<Users>> getMethodName(
     @RequestParam String email,
     Platform platform
   ) throws NotFoundException {
-    return new ResponseEntity<Response<Users>>(
-      Response
+    return new ResponseEntity<CommonResponse<Users>>(
+      CommonResponse
         .<Users>builder()
         .message(
           userService
@@ -54,12 +54,12 @@ public class UserController {
   }
 
   @GetMapping("/user-info")
-  private ResponseEntity<Response<Map<String, Object>>> getUserInfo(
+  private ResponseEntity<CommonResponse<Map<String, Object>>> getUserInfo(
     OAuth2AuthenticationToken authenticationToken
   ) {
     OAuth2User oAuth2User = (OAuth2User) authenticationToken.getPrincipal();
-    return new ResponseEntity<Response<Map<String, Object>>>(
-      Response
+    return new ResponseEntity<CommonResponse<Map<String, Object>>>(
+      CommonResponse
         .<Map<String, Object>>builder()
         .message(oAuth2User.getAttributes())
         .error(null)

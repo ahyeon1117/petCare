@@ -35,11 +35,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Users {
 
   @Id
-  private String platform;
+  private String userId;
 
   @Id
-  @Column(name = "email")
-  private String id;
+  private String platform;
 
   private String email;
 

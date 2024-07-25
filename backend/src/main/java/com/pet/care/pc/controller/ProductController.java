@@ -1,6 +1,6 @@
 package com.pet.care.pc.controller;
 
-import com.pet.care.pc.dto.api.Response;
+import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.entitiy.shopping.product.Products;
 import com.pet.care.pc.service.ProductService;
 import com.pet.care.pc.utils.ResponseUtils;
@@ -29,13 +29,13 @@ public class ProductController {
     summary = "모든 상품 정보 조회",
     description = "모든 상품 정보 조회"
   )
-  public ResponseEntity<Response<List<Products>>> findAll() {
+  public ResponseEntity<CommonResponse<List<Products>>> findAll() {
     try {
       List<Products> data = service.findAll();
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (Response<List<Products>>) ResponseUtils.response(null, data),
+        (CommonResponse<List<Products>>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ProductController {
   @Hidden
   @GetMapping(value = "/all/search")
   @Operation(summary = "상품 정보 조회", description = "상품 정보 조회")
-  public ResponseEntity<Response<Products>> findAll(
+  public ResponseEntity<CommonResponse<Products>> findAll(
     @RequestParam("id") Long id
   ) {
     try {
@@ -54,7 +54,7 @@ public class ProductController {
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (Response<Products>) ResponseUtils.response(null, data),
+        (CommonResponse<Products>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

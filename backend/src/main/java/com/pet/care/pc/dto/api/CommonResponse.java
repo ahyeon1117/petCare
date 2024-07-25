@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response<T> {
+public class CommonResponse<T> {
 
   private int resCode;
   private T message;

@@ -1,6 +1,6 @@
 package com.pet.care.pc.controller;
 
-import com.pet.care.pc.dto.api.Response;
+import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.service.PetService;
 import com.pet.care.pc.utils.ResponseUtils;
@@ -34,7 +34,7 @@ public class PetController {
     produces = "application/json",
     consumes = "multipart/form-data"
   )
-  public ResponseEntity<Response<Object>> imgUpload(
+  public ResponseEntity<CommonResponse<Object>> imgUpload(
     @RequestBody MultipartFile data,
     @RequestParam("petId") Long petId
   ) {
@@ -42,7 +42,7 @@ public class PetController {
   }
 
   @GetMapping(value = "picture")
-  public ResponseEntity<Response<Object>> imgDownload(
+  public ResponseEntity<CommonResponse<Object>> imgDownload(
     @RequestParam("petId") Long petId
   ) {
     return null;
@@ -54,13 +54,13 @@ public class PetController {
     summary = "모든 애완동물 정보 조회",
     description = "모든 애완동물 정보 조회"
   )
-  public ResponseEntity<Response<List<Pet>>> findAll() {
+  public ResponseEntity<CommonResponse<List<Pet>>> findAll() {
     try {
       List<Pet> pet = service.findAll();
 
       int resCode = ResponseUtils.getResCode(pet);
       return new ResponseEntity<>(
-        (Response<List<Pet>>) ResponseUtils.response(null, pet),
+        (CommonResponse<List<Pet>>) ResponseUtils.response(null, pet),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -69,7 +69,7 @@ public class PetController {
   }
 
   @Operation(summary = "애완동물 정보 조회", description = "애완동물 정보 조회")
-  public ResponseEntity<Response<Pet>> findByPetId(
+  public ResponseEntity<CommonResponse<Pet>> findByPetId(
     @RequestParam("petId") Long petId
   ) {
     try {
@@ -77,7 +77,7 @@ public class PetController {
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (Response<Pet>) ResponseUtils.response(null, data),
+        (CommonResponse<Pet>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

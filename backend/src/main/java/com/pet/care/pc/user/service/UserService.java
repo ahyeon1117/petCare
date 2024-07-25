@@ -1,6 +1,7 @@
 package com.pet.care.pc.user.service;
 
 import com.pet.care.pc.entitiy.user.Users;
+import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.user.dto.PrincipalDetail;
 import com.pet.care.pc.user.repo.UsersRepository;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class UserService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String id)
     throws UsernameNotFoundException {
-    Optional<Users> userEntity = usersRepo.findById(Long.parseLong(id));
+    Optional<Users> userEntity = usersRepo.findById(UserId.builder().build());
     PrincipalDetail principalDetail = userEntity.isPresent() == true
       ? new PrincipalDetail(userEntity.get())
       : null;

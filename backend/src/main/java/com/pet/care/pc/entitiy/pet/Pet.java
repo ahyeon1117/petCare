@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.Data;
@@ -18,7 +19,12 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class Pet {
 
   @ManyToOne
-  @JoinColumn(name = "user_id")
+  @JoinColumns(
+    {
+      @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+      @JoinColumn(name = "platform", referencedColumnName = "platform"),
+    }
+  )
   private Users user;
 
   @Id

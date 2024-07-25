@@ -63,11 +63,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       user =
         Users
           .builder()
+          .userId(email)
+          .platform(platform)
           .email(email)
           .name(name)
-          .id(email) // 로그인 ID로 사용할 값 설정 필요
           .role(Role.USER)
-          .platform(platform)
           .build();
       user = userService.save(user);
     } else {

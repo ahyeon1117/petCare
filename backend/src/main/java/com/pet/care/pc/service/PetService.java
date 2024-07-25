@@ -21,4 +21,8 @@ public class PetService {
   public Pet findByPetId(Long petId) {
     return repository.findById(petId).orElseThrow();
   }
+
+  public Pet save(Pet pet) {
+    return repository.save(pet);
+  }
 }
