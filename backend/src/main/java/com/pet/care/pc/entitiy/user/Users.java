@@ -3,6 +3,7 @@ package com.pet.care.pc.entitiy.user;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.entitiy.post.Post;
 import com.pet.care.pc.entitiy.shopping.order.Orders;
+import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.user.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,9 +12,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
@@ -30,17 +30,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(UserId.class)
 @EntityListeners(AuditingEntityListener.class)
 public class Users {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_seq_gen")
-  private Long userSeq;
+  private String platform;
 
-  @Column(name = "login_id", unique = true)
-  private String loginId;
+  @Id
+  @Column(name = "email")
+  private String id;
 
-  @Column(name = "email", unique = true)
   private String email;
 
   @OneToOne(
@@ -74,8 +74,6 @@ public class Users {
   private String passwd;
 
   private String name;
-
-  private String platform;
 
   @CreatedDate
   private LocalDateTime createDate;

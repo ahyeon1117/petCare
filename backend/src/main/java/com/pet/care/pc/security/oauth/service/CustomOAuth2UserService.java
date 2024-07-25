@@ -65,7 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
           .builder()
           .email(email)
           .name(name)
-          .loginId(email) // 로그인 ID로 사용할 값 설정 필요
+          .id(email) // 로그인 ID로 사용할 값 설정 필요
           .role(Role.USER)
           .platform(platform)
           .build();
