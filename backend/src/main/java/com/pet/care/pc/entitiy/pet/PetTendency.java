@@ -26,6 +26,7 @@ public class PetTendency {
   private Pet pet;
 
   @MapsId("kindId")
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "kind_id")
   @JsonIgnore
   private PetTendencyKind kind;

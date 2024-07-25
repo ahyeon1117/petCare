@@ -9,7 +9,7 @@ import lombok.Data;
 public class PetTendencyKind {
 
   @Id
-  private Integer id;
+  private Long id;
 
   private String topic;
   private String description;
