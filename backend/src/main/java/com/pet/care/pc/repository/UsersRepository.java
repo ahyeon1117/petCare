@@ -1,4 +1,4 @@
-package com.pet.care.pc.user.repo;
+package com.pet.care.pc.repository;
 
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.entitiy.user.id.UserId;

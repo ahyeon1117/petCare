@@ -1,7 +1,7 @@
 package com.pet.care.pc.service;
 
 import com.pet.care.pc.entitiy.pet.Pet;
-import com.pet.care.pc.repository.jpa.PetRepository;
+import com.pet.care.pc.repository.PetRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

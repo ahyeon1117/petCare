@@ -2,9 +2,8 @@ package com.pet.care.pc.security.oauth.service;
 
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.security.oauth.dto.OAuth2AttributeDto;
-import com.pet.care.pc.user.dto.PrincipalDetail;
-import com.pet.care.pc.user.enums.Role;
-import com.pet.care.pc.user.service.UserService;
+import com.pet.care.pc.security.oauth.dto.PrincipalDetail;
+import com.pet.care.pc.security.oauth.enums.Role;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     String name = (String) memberAttribute.get("name");
     String platform = (String) memberAttribute.get("platform");
 
-    // 이메일로 가입된 회원인지 조회한다.
+    // 가입된 회원인지 조회한다.
     Optional<Users> optionalUser = userService.findByEmailAndPlatform(
       email,
       platform

@@ -1,6 +1,6 @@
 package com.pet.care.pc.security.oauth.dto;
 
-import com.pet.care.pc.user.enums.Platform;
+import com.pet.care.pc.security.oauth.enums.Platform;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AccessLevel;
@@ -8,9 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+@Getter
 @ToString
 @Builder(access = AccessLevel.PRIVATE) // Builder 메서드를 외부에서 사용하지 않으므로, Private 제어자로 지정
-@Getter
 public class OAuth2AttributeDto {
 
   private Map<String, Object> attributes; // 사용자 속성 정보를 담는 Map
@@ -20,6 +20,7 @@ public class OAuth2AttributeDto {
   private String picture; // 프로필 사진 정보
   private String provider; // 제공자 정보
   private String platform;
+  private String role;
 
   // 서비스에 따라 OAuth2Attribute 객체를 생성하는 메서드
   public static OAuth2AttributeDto of(
@@ -120,6 +121,7 @@ public class OAuth2AttributeDto {
     map.put("email", email);
     map.put("provider", provider);
     map.put("platform", platform);
+    map.put("role", role);
 
     return map;
   }

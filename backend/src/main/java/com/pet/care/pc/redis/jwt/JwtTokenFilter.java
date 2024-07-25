@@ -1,4 +1,4 @@
-package com.pet.care.pc.security.jwt;
+package com.pet.care.pc.redis.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

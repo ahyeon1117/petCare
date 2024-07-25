@@ -52,4 +52,5 @@ spring:
             user-name-attribute: id
 
 jwt:
+  periodMinute: 43200
   secretKey: bXlTZWNyZXRLZXlteVNlY3JldEtleW15U2VjcmV0S2V5bXlTZWNyZXRLZXlteVNlY3JldEtleQ==

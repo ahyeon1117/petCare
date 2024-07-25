@@ -4,7 +4,7 @@ import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.entitiy.post.Post;
 import com.pet.care.pc.entitiy.shopping.order.Orders;
 import com.pet.care.pc.entitiy.user.id.UserId;
-import com.pet.care.pc.user.enums.Role;
+import com.pet.care.pc.security.oauth.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -36,10 +37,12 @@ public class Users {
 
   @Id
   @Column(name = "user_id")
+  @NotNull
   private String userId;
 
   @Id
   @Column(name = "platform")
+  @NotNull
   private String platform;
 
   private String email;

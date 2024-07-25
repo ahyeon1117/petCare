@@ -1,5 +1,6 @@
-package com.pet.care.pc.security.jwt;
+package com.pet.care.pc.redis.jwt;
 
+import com.pet.care.pc.entitiy.user.id.UserId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -39,26 +40,14 @@ public class JwtTokenProvider {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  // 원래는 return GeneratedToken으로 해야하지만 email은 추 후 추가 예정이기 때문에 String임
-
-  public JwtToken generateToken(String email, String role) {
-    // refreshToken과 accessToken을 생성한다.
-    String refreshToken = generateRefreshToken(email, role);
-    String accessToken = generateAccessToken(email, role);
-
-    return new JwtToken(accessToken, refreshToken);
-    // 토큰을 Redis에 저장한다.
-    // tokenService.saveTokenInfo(email, refreshToken, accessToken);
-    // return new GeneratedToken(accessToken, refreshToken);
-  }
-
-  public String generateRefreshToken(String email, String role) {
+  public String generateRefreshToken(String id, String platform, String role) {
     // 토큰의 유효 기간을 밀리초 단위로 설정.
-    long refreshPeriod = 1000L * 60L * 60L * 24L * 14; // 2주
+    long refreshPeriod = 1000L * 60L * 60L * 24L * 24; // 2주
 
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
-    claims.put("email", email);
+    claims.put("id", id);
+    claims.put("platform", platform);
     claims.put("role", role);
 
     // 현재 시간과 날짜를 가져온다.
@@ -77,18 +66,19 @@ public class JwtTokenProvider {
       .compact();
   }
 
-  public String generateAccessToken(String email, String role) {
+  public String generateAccessToken(String id, String platform, String role) {
     long tokenPeriod = 1000L * 60L * 30L; // 30분
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
-    claims.put("email", email);
+    claims.put("id", id);
+    claims.put("platform", platform);
     claims.put("role", role);
-
     Date now = new Date();
     return Jwts
       .builder()
       //    Payload를 구성하는 속성들을 정의한다.
       .claims(claims)
+      .subject(String.format("%s_%s", id, platform))
       // 발행일자를 넣는다.
       .issuedAt(now)
       // 토큰의 만료일시를 설정한다.
@@ -132,7 +122,6 @@ public class JwtTokenProvider {
     return jwtTokenVerify;
   }
 
-  // 토큰에서 Email을 추출한다.
   public String getUid(String token) {
     return Jwts
       .parser()
@@ -143,15 +132,22 @@ public class JwtTokenProvider {
       .getSubject();
   }
 
-  // 토큰에서 ROLE(권한)만 추출한다.
-  public String getRole(String token) {
+  public UserId getUserId(String token) {
+    return UserId
+      .builder()
+      .platform(get(token, "platform"))
+      .userId(get(token, "userId"))
+      .build();
+  }
+
+  public String get(String token, String jsonKey) {
     return Jwts
       .parser()
       .verifyWith(key)
       .build()
       .parseSignedClaims(token)
       .getPayload()
-      .getOrDefault("role", String.class)
+      .getOrDefault(jsonKey, String.class)
       .toString();
   }
 

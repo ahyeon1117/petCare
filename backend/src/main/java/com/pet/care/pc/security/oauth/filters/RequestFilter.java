@@ -1,6 +1,8 @@
 package com.pet.care.pc.security.oauth.filters;
 
-import com.pet.care.pc.user.dto.PrincipalDetail;
+import com.pet.care.pc.entitiy.user.id.UserId;
+import com.pet.care.pc.redis.service.TokenService;
+import com.pet.care.pc.security.oauth.dto.PrincipalDetail;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +22,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
 
-  // private final JwtTokenProvider jwtUtil;
+  private final TokenService service;
+
   private final OAuth2AuthorizedClientService authorizedClientService;
 
   @Override
@@ -30,7 +33,10 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
     Authentication authentication
   ) throws IOException, ServletException {
     // OAuth2User로 캐스팅하여 인증된 사용자 정보를 가져온다.
-    PrincipalDetail principalDetail = (PrincipalDetail) authentication;
+    PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
+    String platform = principalDetail.getAttribute("platform");
+    String userId = principalDetail.getAttribute("userId");
+    String role = principalDetail.getAttribute("role");
     OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
       principalDetail.getAttribute("platform").toString().toLowerCase(),
       authentication.getName()
@@ -41,7 +47,15 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
       OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
 
       // 쿠키에 토큰 설정
-      Cookie cookie = new Cookie("token", accessToken.getTokenValue());
+      Cookie cookie = new Cookie(
+        "jwt",
+        service
+          .generateJwtToken(
+            UserId.builder().userId(userId).platform(platform).build(),
+            role
+          )
+          .getAccessToken()
+      );
       cookie.setHttpOnly(true); // 클라이언트 스크립트에서 접근 불가
       cookie.setSecure(true); // HTTPS에서만 전송 (개발 시에는 false로 설정할 수 있음)
       cookie.setPath("/"); // 애플리케이션 전체에서 사용 가능

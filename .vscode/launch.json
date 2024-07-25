@@ -8,7 +8,7 @@
       "mainClass": "com.pet.care.pc.BackendApplication",
       "projectName": "backend",
       "console": "internalConsole",
-      "args": "",
+      "args": "--spring.profles.active=local",
       "envFile": "${workspaceFolder}/.env"
     }
   ]

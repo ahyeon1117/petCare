@@ -1,4 +1,4 @@
-package com.pet.care.pc.user.dto;
+package com.pet.care.pc.security.oauth.dto;
 
 import com.pet.care.pc.entitiy.user.Users;
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
 
   @Override
   public String getUsername() {
-    return user.getName();
+    return String.format("%s_%s", user.getUserId(), user.getPlatform());
   }
 
   @Override

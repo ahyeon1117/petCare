@@ -1,4 +1,4 @@
-package com.pet.care.pc.security.jwt;
+package com.pet.care.pc.redis.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
