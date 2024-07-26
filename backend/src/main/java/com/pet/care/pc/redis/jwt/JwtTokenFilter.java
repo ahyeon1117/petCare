@@ -1,5 +1,6 @@
 package com.pet.care.pc.redis.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,12 +25,39 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     FilterChain filterChain
   ) throws IOException, ServletException {
     String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-    if (Boolean.TRUE.equals(jwtTokenProvider.verifyToken(token).getValid())) {
-      Authentication auth = token != null
-        ? jwtTokenProvider.getAuthentication(token)
-        : null;
-      SecurityContextHolder.getContext().setAuthentication(auth);
+    try {
+      if (Boolean.TRUE.equals(jwtTokenProvider.verifyToken(token).getValid())) {
+        Authentication auth = token != null
+          ? jwtTokenProvider.getAuthentication(token)
+          : null;
+        SecurityContextHolder.getContext().setAuthentication(auth);
+      }
+    } catch (ExpiredJwtException e) {
+      handleExpiredToken(request, response, "", filterChain);
     }
     filterChain.doFilter(request, response);
+  }
+
+  private void handleExpiredToken(
+    HttpServletRequest request,
+    HttpServletResponse response,
+    String refreshToken,
+    FilterChain chain
+  ) throws IOException, ServletException {
+    if (
+      refreshToken != null &&
+      jwtTokenProvider.verifyToken(refreshToken).getValid()
+    ) {
+      String newAccessToken = jwtTokenProvider.generateTokenFromRefreshToken(
+        refreshToken
+      );
+      response.setHeader("Authorization", "Bearer " + newAccessToken);
+      // Optionally, you can also update the security context with the new token
+    } else {
+      response.sendError(
+        HttpServletResponse.SC_UNAUTHORIZED,
+        "JWT Token has expired and refresh token is invalid"
+      );
+    }
   }
 }

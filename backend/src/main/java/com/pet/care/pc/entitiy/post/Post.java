@@ -27,6 +27,6 @@ public class Post {
   )
   private Users user;
 
-  private String status;
+  private Long like;
   private String createAt;
 }

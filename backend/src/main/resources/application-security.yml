@@ -52,5 +52,9 @@ spring:
             user-name-attribute: id
 
 jwt:
-  periodMinute: 43200
+  expire-length:
+    # 분 단위
+    accessToken: 60
+    # 일 단위
+    refereshToken: 30
   secretKey: bXlTZWNyZXRLZXlteVNlY3JldEtleW15U2VjcmV0S2V5bXlTZWNyZXRLZXlteVNlY3JldEtleQ==
