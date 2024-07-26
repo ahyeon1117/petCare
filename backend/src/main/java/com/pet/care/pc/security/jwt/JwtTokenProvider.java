@@ -29,6 +29,12 @@ public class JwtTokenProvider {
   @Value("${jwt.secretKey}")
   private String secretKey = "secretKey";
 
+  @Value("${jwt.expire-length.accessToken}")
+  private Long accessTokenExpire;
+
+  @Value("${jwt.expire-length.refereshToken}")
+  private Long refereshTokenExpire;
+
   SecretKey key = Jwts.SIG.HS512.key().build();
 
   @PostConstruct
@@ -54,7 +60,7 @@ public class JwtTokenProvider {
 
   public String generateRefreshToken(String email, String role) {
     // 토큰의 유효 기간을 밀리초 단위로 설정.
-    long refreshPeriod = 1000L * 60L * 60L * 24L * 14; // 2주
+    long refreshPeriod = 1000L * 60L * 60L * 24L * refereshTokenExpire;
 
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
@@ -78,7 +84,7 @@ public class JwtTokenProvider {
   }
 
   public String generateAccessToken(String email, String role) {
-    long tokenPeriod = 1000L * 60L * 30L; // 30분
+    long tokenPeriod = 1000L * 60L * accessTokenExpire; // 30분
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
     claims.put("email", email);
@@ -125,7 +131,8 @@ public class JwtTokenProvider {
       }
       jwtTokenVerify.setValid(true);
     } catch (ExpiredJwtException e) {
-      jwtTokenVerify.setErr("expired token");
+      // jwtTokenVerify.setErr("expired token");
+      throw e;
     } catch (JwtException | IllegalArgumentException e) {
       jwtTokenVerify.setErr("invalid token");
     }
@@ -161,5 +168,33 @@ public class JwtTokenProvider {
       return bearerToken.substring(7, bearerToken.length());
     }
     return null;
+  }
+
+  public String generateTokenFromRefreshToken(String refreshToken) {
+    // Implement token generation from refresh token
+    Claims claims = getAllClaimsFromToken(refreshToken);
+    return doGenerateToken(claims, claims.getSubject());
+  }
+
+  private Claims getAllClaimsFromToken(String token) {
+    return Jwts
+      .parser()
+      .verifyWith(key)
+      .build()
+      .parseSignedClaims(token)
+      .getPayload();
+  }
+
+  private String doGenerateToken(Map<String, Object> claims, String subject) {
+    return Jwts
+      .builder()
+      .claims(claims)
+      .subject(subject)
+      .issuedAt(new Date(System.currentTimeMillis()))
+      .expiration(
+        new Date(new Date().getTime() + 1000L * 60L * accessTokenExpire)
+      )
+      .signWith(key)
+      .compact();
   }
 }

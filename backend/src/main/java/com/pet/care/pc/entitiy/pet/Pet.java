@@ -48,8 +48,6 @@ public class Pet {
 
   private String caution;
 
-  private String imgPath;
-
   @LastModifiedDate
   private LocalDateTime modifyAt;
 }
