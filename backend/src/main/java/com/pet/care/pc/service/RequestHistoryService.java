@@ -1,7 +1,7 @@
 package com.pet.care.pc.service;
 
+import com.pet.care.pc.dao.repository.RequestHistoryRepository;
 import com.pet.care.pc.entitiy.RequestHistory;
-import com.pet.care.pc.repository.RequestHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

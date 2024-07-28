@@ -46,6 +46,9 @@ public class Pet {
   private long petId;
 
   @NotNull
+  private String name;
+
+  @NotNull
   private String age;
 
   @NotNull

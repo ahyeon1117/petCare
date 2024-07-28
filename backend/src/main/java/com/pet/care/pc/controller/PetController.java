@@ -3,10 +3,11 @@ package com.pet.care.pc.controller;
 import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.dto.api.PetSaveRequest;
 import com.pet.care.pc.entitiy.pet.Pet;
+import com.pet.care.pc.redis.jwt.JwtTokenProvider;
 import com.pet.care.pc.service.PetService;
 import com.pet.care.pc.utils.ResponseUtils;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,9 @@ public class PetController {
   @Autowired
   private PetService service;
 
-  /*
-   * if : LocalSave, RemoteSave
-   */
+  @Autowired
+  private JwtTokenProvider jwtUtils;
+
   @PostMapping(value = "/save")
   public ResponseEntity<CommonResponse<String>> save(
     @RequestBody PetSaveRequest req
@@ -81,6 +82,30 @@ public class PetController {
 
       return new ResponseEntity<>(
         (CommonResponse<Pet>) ResponseUtils.response(null, data),
+        HttpStatusCode.valueOf(resCode)
+      );
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  @GetMapping("/pet/user")
+  @Operation(
+    summary = "애완동물 정보 유저로 조회",
+    description = "애완동물 정보 유저로 조회"
+  )
+  public ResponseEntity<CommonResponse<List<Pet>>> findByPetId(
+    HttpServletRequest httpServletRequest
+  ) {
+    try {
+      String userId = jwtUtils.getUid(
+        jwtUtils.resolveToken(httpServletRequest)
+      );
+      List<Pet> data = service.findByUser(userId);
+      int resCode = ResponseUtils.getResCode(data);
+
+      return new ResponseEntity<>(
+        (CommonResponse<List<Pet>>) ResponseUtils.response(null, data),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

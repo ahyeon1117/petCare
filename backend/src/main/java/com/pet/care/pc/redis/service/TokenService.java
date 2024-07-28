@@ -1,9 +1,9 @@
 package com.pet.care.pc.redis.service;
 
+import com.pet.care.pc.dao.repository.redis.TokenRepository;
 import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.redis.entity.JwtToken;
 import com.pet.care.pc.redis.jwt.JwtTokenProvider;
-import com.pet.care.pc.redis.repository.TokenRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
