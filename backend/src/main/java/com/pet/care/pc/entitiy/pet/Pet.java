@@ -6,10 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,6 +22,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @Entity
+@SequenceGenerator(
+  name = "pet_seq_gen",
+  sequenceName = "pet_seq",
+  initialValue = 1,
+  allocationSize = 1
+)
 @EntityListeners(AuditingEntityListener.class)
 public class Pet {
 
@@ -28,19 +38,33 @@ public class Pet {
       @JoinColumn(name = "platform", referencedColumnName = "platform"),
     }
   )
+  @NotNull
   private Users user;
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "pet_seq_gen")
   private long petId;
 
+  @NotNull
   private String age;
+
+  @NotNull
   private String gender;
-  private String kind;
+
+  @NotNull
   private Boolean neutering;
+
+  @NotNull
   private String hospital;
+
+  @NotNull
   private String caution;
+
   private String imgPath;
 
+  private String kind;
+
+  @NotNull
   @Enumerated(EnumType.STRING)
   private AnimalKind animalKind;
 
