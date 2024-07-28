@@ -1,7 +1,7 @@
 package com.pet.care.pc.entitiy.user;
 
 import com.pet.care.pc.entitiy.pet.Pet;
-import com.pet.care.pc.entitiy.post.Post;
+import com.pet.care.pc.entitiy.post.Posts;
 import com.pet.care.pc.entitiy.shopping.order.Orders;
 import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.security.oauth.enums.Role;
@@ -66,7 +66,7 @@ public class Users {
     cascade = CascadeType.ALL,
     fetch = FetchType.LAZY
   )
-  private List<Post> posts;
+  private List<Posts> posts;
 
   @OneToMany(
     mappedBy = "user",

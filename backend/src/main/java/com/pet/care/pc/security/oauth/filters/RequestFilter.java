@@ -35,7 +35,7 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
     // OAuth2User로 캐스팅하여 인증된 사용자 정보를 가져온다.
     PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
     String platform = principalDetail.getAttribute("platform");
-    String userId = principalDetail.getAttribute("userId");
+    String email = principalDetail.getAttribute("email");
     String role = principalDetail.getAttribute("role");
     OAuth2AuthorizedClient authorizedClient = authorizedClientService.loadAuthorizedClient(
       principalDetail.getAttribute("platform").toString().toLowerCase(),
@@ -51,7 +51,7 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
         "jwt",
         service
           .generateJwtToken(
-            UserId.builder().userId(userId).platform(platform).build(),
+            UserId.builder().userId(email).platform(platform).build(),
             role
           )
           .getAccessToken()

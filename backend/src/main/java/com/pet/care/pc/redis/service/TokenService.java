@@ -25,16 +25,8 @@ public class TokenService {
   }
 
   public JwtToken generateJwtToken(UserId id, String role) {
-    String refreshToken = tokenProvider.generateRefreshToken(
-      id.getUserId(),
-      id.getPlatform(),
-      role
-    );
-    String accessToken = tokenProvider.generateAccessToken(
-      id.getUserId(),
-      id.getPlatform(),
-      role
-    );
+    String refreshToken = tokenProvider.generateRefreshToken(id, role);
+    String accessToken = tokenProvider.generateAccessToken(id, role);
 
     JwtToken result = new JwtToken(
       accessToken,

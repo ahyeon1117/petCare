@@ -2,6 +2,8 @@ package com.pet.care.pc.entitiy.post;
 
 import com.pet.care.pc.entitiy.user.Users;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
@@ -10,10 +12,11 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Post {
+public class Posts {
 
   @Id
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   private String title;
   private String body;
@@ -27,6 +30,6 @@ public class Post {
   )
   private Users user;
 
-  private Long like;
+  private Long postLike;
   private String createAt;
 }

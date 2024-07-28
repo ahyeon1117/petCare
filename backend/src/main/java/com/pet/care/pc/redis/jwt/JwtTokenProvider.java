@@ -46,14 +46,14 @@ public class JwtTokenProvider {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  public String generateRefreshToken(String id, String platform, String role) {
+  public String generateRefreshToken(UserId id, String role) {
     // 토큰의 유효 기간을 밀리초 단위로 설정.
     long refreshPeriod = 1000L * 60L * 60L * 24L * refereshTokenExpire;
 
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
-    claims.put("id", id);
-    claims.put("platform", platform);
+    claims.put("id", id.getUserId());
+    claims.put("platform", id.getPlatform());
     claims.put("role", role);
 
     // 현재 시간과 날짜를 가져온다.
@@ -72,19 +72,19 @@ public class JwtTokenProvider {
       .compact();
   }
 
-  public String generateAccessToken(String email, String role) {
+  public String generateAccessToken(UserId id, String role) {
     long tokenPeriod = 1000L * 60L * accessTokenExpire; // 30분
     // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
     Map<String, String> claims = new HashMap<>();
-    claims.put("id", id);
-    claims.put("platform", platform);
+    claims.put("id", id.getUserId());
+    claims.put("platform", id.getPlatform());
     claims.put("role", role);
     Date now = new Date();
     return Jwts
       .builder()
       //    Payload를 구성하는 속성들을 정의한다.
       .claims(claims)
-      .subject(String.format("%s_%s", id, platform))
+      .subject(String.format("%s_%s", id.getUserId(), id.getPlatform()))
       // 발행일자를 넣는다.
       .issuedAt(now)
       // 토큰의 만료일시를 설정한다.
