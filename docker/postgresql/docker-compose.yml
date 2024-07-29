@@ -1,5 +1,3 @@
-version: "3.1"
-
 services:
   postgres:
     image: "postgres:latest"
@@ -15,5 +13,25 @@ services:
     ports:
       - 5431:5432
 
+  # 서비스명
+  redis_container:
+    # 컨테이너명
+    container_name: redis_test
+    environment:
+      - REDIS_MAXMEMORY=256mb
+      - REDIS_MAXMEMORY_POLICY=allkeys-lru
+    build:
+      context: ./redis
+    ports:
+      - 6379:6379
+    # 스토리지 마운트(볼륨) 설정
+    volumes:
+      - redis:/data
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    restart: always
+
 volumes:
   toy-volume:
+  redis:

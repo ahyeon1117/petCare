@@ -1,6 +1,5 @@
 package com.pet.care.pc.security.oauth.filters;
 
-import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.redis.service.TokenService;
 import com.pet.care.pc.security.oauth.dto.PrincipalDetail;
 import jakarta.servlet.ServletException;
@@ -50,10 +49,7 @@ public class RequestFilter extends SimpleUrlAuthenticationSuccessHandler {
       Cookie cookie = new Cookie(
         "jwt",
         service
-          .generateJwtToken(
-            UserId.builder().userId(email).platform(platform).build(),
-            role
-          )
+          .generateJwtToken(String.format("%s_%s", email, platform), role)
           .getAccessToken()
       );
       cookie.setHttpOnly(true); // 클라이언트 스크립트에서 접근 불가

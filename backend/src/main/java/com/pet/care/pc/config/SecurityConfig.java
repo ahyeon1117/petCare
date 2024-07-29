@@ -1,5 +1,6 @@
 package com.pet.care.pc.config;
 
+import com.pet.care.pc.redis.jwt.JwtTokenFilter;
 import com.pet.care.pc.security.oauth.filters.RequestFilter;
 import com.pet.care.pc.security.oauth.service.CustomOAuth2UserService;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,8 +30,11 @@ public class SecurityConfig {
 
   private final RequestFilter requestFilter;
 
+  @Autowired
+  private JwtTokenFilter jwtTokenFilter;
+
   private static final String[] AUTH_WHITELIST = {
-    "/**",
+    "/",
     "/user-info",
     "/index.html",
     "/js/**",
@@ -86,6 +91,10 @@ public class SecurityConfig {
       )
       .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
+    http.addFilterBefore(
+      jwtTokenFilter,
+      UsernamePasswordAuthenticationFilter.class
+    );
     return http.build();
   }
 

@@ -1,5 +1,6 @@
 package com.pet.care.pc.redis.jwt;
 
+import com.pet.care.pc.redis.service.TokenService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -8,14 +9,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-  private JwtTokenProvider jwtTokenProvider;
+  private TokenService tokenService;
 
-  public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
-    this.jwtTokenProvider = jwtTokenProvider;
+  public JwtTokenFilter(TokenService tokenService) {
+    this.tokenService = tokenService;
   }
 
   @Override
@@ -24,16 +27,21 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     HttpServletResponse response,
     FilterChain filterChain
   ) throws IOException, ServletException {
-    String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
+    String token = tokenService.resolveToken((HttpServletRequest) request);
     try {
-      if (Boolean.TRUE.equals(jwtTokenProvider.verifyToken(token).getValid())) {
+      if (Boolean.TRUE.equals(tokenService.verifyToken(token).getValid())) {
         Authentication auth = token != null
-          ? jwtTokenProvider.getAuthentication(token)
+          ? tokenService.getAuthentication(token)
           : null;
         SecurityContextHolder.getContext().setAuthentication(auth);
       }
     } catch (ExpiredJwtException e) {
-      handleExpiredToken(request, response, "", filterChain);
+      handleExpiredToken(
+        request,
+        response,
+        tokenService.getUid(token),
+        filterChain
+      );
     }
     filterChain.doFilter(request, response);
   }
@@ -45,10 +53,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     FilterChain chain
   ) throws IOException, ServletException {
     if (
-      refreshToken != null &&
-      jwtTokenProvider.verifyToken(refreshToken).getValid()
+      refreshToken != null && tokenService.verifyToken(refreshToken).getValid()
     ) {
-      String newAccessToken = jwtTokenProvider.generateTokenFromRefreshToken(
+      String newAccessToken = tokenService.generateTokenFromRefreshToken(
         refreshToken
       );
       response.setHeader("Authorization", "Bearer " + newAccessToken);
