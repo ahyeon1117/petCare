@@ -61,6 +61,7 @@ public class JwtTokenProvider {
 
     return Jwts
       .builder()
+      .subject(String.format("%s_%s", id.getUserId(), id.getPlatform()))
       // Payload를 구성하는 속성들을 정의한다.
       .claims(claims)
       // 발행일자를 넣는다.
@@ -82,9 +83,9 @@ public class JwtTokenProvider {
     Date now = new Date();
     return Jwts
       .builder()
+      .subject(String.format("%s_%s", id.getUserId(), id.getPlatform()))
       //    Payload를 구성하는 속성들을 정의한다.
       .claims(claims)
-      .subject(String.format("%s_%s", id.getUserId(), id.getPlatform()))
       // 발행일자를 넣는다.
       .issuedAt(now)
       // 토큰의 만료일시를 설정한다.
