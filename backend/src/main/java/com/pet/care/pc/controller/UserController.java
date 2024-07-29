@@ -29,14 +29,14 @@ public class UserController {
   private UserService userService;
 
   @PostMapping("/register")
-  private void postMethodName(@RequestBody Users entity) {
+  public void postMethodName(@RequestBody Users entity) {
     //TODO: process POST request
   }
 
   @GetMapping("/info")
-  private ResponseEntity<CommonResponse<Users>> getMethodName(
-    @RequestParam String email,
-    Platform platform
+  public ResponseEntity<CommonResponse<Users>> userInfo(
+    @RequestParam("email") String email,
+    @RequestParam("platform") Platform platform
   ) throws NotFoundException {
     return new ResponseEntity<CommonResponse<Users>>(
       CommonResponse
@@ -54,7 +54,7 @@ public class UserController {
   }
 
   @GetMapping("/user-info")
-  private ResponseEntity<CommonResponse<Map<String, Object>>> getUserInfo(
+  public ResponseEntity<CommonResponse<Map<String, Object>>> getUserInfo(
     OAuth2AuthenticationToken authenticationToken
   ) {
     OAuth2User oAuth2User = (OAuth2User) authenticationToken.getPrincipal();
