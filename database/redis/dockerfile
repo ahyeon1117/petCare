@@ -1,0 +1,15 @@
+FROM redis:latest
+
+RUN cat /etc/os-release
+RUN apt-get update && apt-get install -y procps
+
+ADD ./redis.conf /usr/local/conf/redis.conf
+# ADD ./sysctl.conf /etc/sysctl.conf
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+## dos line end -> linux line end
+# RUN sysctl -w vm.overcommit_memory=1
+
+CMD [ "redis-server", "/usr/local/conf/redis.conf" ]
