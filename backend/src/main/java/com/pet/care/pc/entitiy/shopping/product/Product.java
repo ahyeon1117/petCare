@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Products {
+public class Product {
 
   @Id
   private long id;

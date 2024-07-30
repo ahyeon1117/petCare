@@ -27,7 +27,7 @@ public class PostComments {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private Posts posts;
+  private Post posts;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Users users;

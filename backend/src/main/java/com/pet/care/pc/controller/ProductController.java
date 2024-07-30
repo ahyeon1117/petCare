@@ -2,7 +2,7 @@ package com.pet.care.pc.controller;
 
 import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.dto.api.res.SaveResponse;
-import com.pet.care.pc.entitiy.shopping.product.Products;
+import com.pet.care.pc.entitiy.shopping.product.Product;
 import com.pet.care.pc.service.ProductService;
 import com.pet.care.pc.utils.ResponseUtils;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -29,7 +29,7 @@ public class ProductController {
   @PostMapping
   @Operation(summary = "상품 정보 조회", description = "상품 정보 조회")
   public ResponseEntity<CommonResponse<SaveResponse>> saveAll(
-    @RequestBody List<Products> products
+    @RequestBody List<Product> products
   ) {
     return new ResponseEntity<>(
       new CommonResponse<SaveResponse>(
@@ -58,13 +58,13 @@ public class ProductController {
     summary = "모든 상품 정보 조회",
     description = "모든 상품 정보 조회"
   )
-  public ResponseEntity<CommonResponse<List<Products>>> findAll() {
+  public ResponseEntity<CommonResponse<List<Product>>> findAll() {
     try {
-      List<Products> data = service.findAll();
+      List<Product> data = service.findAll();
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        new CommonResponse<List<Products>>(resCode, data, null),
+        new CommonResponse<List<Product>>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -75,15 +75,15 @@ public class ProductController {
   @Hidden
   @GetMapping(value = "/all/search")
   @Operation(summary = "상품 정보 조회", description = "상품 정보 조회")
-  public ResponseEntity<CommonResponse<Products>> findAll(
+  public ResponseEntity<CommonResponse<Product>> findAll(
     @RequestParam("id") Long id
   ) {
     try {
-      Products data = service.findById(id);
+      Product data = service.findById(id);
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        new CommonResponse<Products>(resCode, data, null),
+        new CommonResponse<Product>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {

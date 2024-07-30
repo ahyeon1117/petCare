@@ -22,6 +22,6 @@ public class Follows {
   )
   private Users user;
 
-  private long following_user_id;
-  private long followed_user_id;
+  private long followingUserId;
+  private long followedUserId;
 }

@@ -1,6 +1,6 @@
-package com.pet.care.pc.entitiy.shopping.product;
+package com.pet.care.pc.entitiy.shopping;
 
-import com.pet.care.pc.entitiy.shopping.product.id.ProductImgId;
+import com.pet.care.pc.entitiy.shopping.id.StoreImgId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(ProductImgId.class)
-public class ProductImg {
+@IdClass(StoreImgId.class)
+public class StoreImg {
 
   @Id
   @ManyToOne(fetch = FetchType.LAZY)
   @NotNull
-  private Product product;
+  private Store store;
 
   @Id
   private Integer page;

@@ -11,6 +11,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
@@ -57,10 +58,11 @@ public class Pet {
   @NotNull
   private String hospital;
 
+  @Lob
   @NotNull
   private String caution;
 
-  private String imgPath;
+  private String profileImg;
 
   private String kind;
 
