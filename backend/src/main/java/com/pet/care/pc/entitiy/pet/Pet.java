@@ -2,6 +2,7 @@ package com.pet.care.pc.entitiy.pet;
 
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.AnimalKind;
+import com.pet.care.pc.enums.Gender;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -50,10 +51,10 @@ public class Pet {
   private String name;
 
   @NotNull
-  private String age;
+  private Integer age;
 
   @NotNull
-  private String gender;
+  private Gender gender;
 
   @NotNull
   private Boolean neutering;

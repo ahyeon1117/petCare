@@ -6,6 +6,7 @@ import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.redis.jwt.JwtTokenProvider;
 import com.pet.care.pc.service.PetService;
 import com.pet.care.pc.utils.ResponseUtils;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,7 +31,7 @@ public class PetController {
   @Autowired
   private JwtTokenProvider jwtUtils;
 
-  @PostMapping(value = "/save")
+  @PostMapping(value = "/")
   public ResponseEntity<CommonResponse<String>> save(
     @RequestBody PetSaveRequest req
   ) {
@@ -52,44 +52,7 @@ public class PetController {
     }
   }
 
-  @GetMapping(value = "all")
-  @Operation(
-    summary = "모든 애완동물 정보 조회",
-    description = "모든 애완동물 정보 조회"
-  )
-  public ResponseEntity<CommonResponse<List<Pet>>> findAll() {
-    try {
-      List<Pet> pet = service.findAll();
-
-      int resCode = ResponseUtils.getResCode(pet);
-      return new ResponseEntity<>(
-        (CommonResponse<List<Pet>>) ResponseUtils.response(null, pet),
-        HttpStatusCode.valueOf(resCode)
-      );
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
   @GetMapping
-  @Operation(summary = "애완동물 정보 조회", description = "애완동물 정보 조회")
-  public ResponseEntity<CommonResponse<Pet>> findByPetId(
-    @RequestParam("petId") Long petId
-  ) {
-    try {
-      Pet data = service.findByPetId(petId);
-      int resCode = ResponseUtils.getResCode(data);
-
-      return new ResponseEntity<>(
-        (CommonResponse<Pet>) ResponseUtils.response(null, data),
-        HttpStatusCode.valueOf(resCode)
-      );
-    } catch (Exception e) {
-      throw e;
-    }
-  }
-
-  @GetMapping("/pet/user")
   @Operation(
     summary = "애완동물 정보 유저로 조회",
     description = "애완동물 정보 유저로 조회"
@@ -106,6 +69,26 @@ public class PetController {
 
       return new ResponseEntity<>(
         (CommonResponse<List<Pet>>) ResponseUtils.response(null, data),
+        HttpStatusCode.valueOf(resCode)
+      );
+    } catch (Exception e) {
+      throw e;
+    }
+  }
+
+  @Hidden
+  @GetMapping(value = "all")
+  @Operation(
+    summary = "모든 애완동물 정보 조회",
+    description = "모든 애완동물 정보 조회"
+  )
+  public ResponseEntity<CommonResponse<List<Pet>>> findAll() {
+    try {
+      List<Pet> pet = service.findAll();
+
+      int resCode = ResponseUtils.getResCode(pet);
+      return new ResponseEntity<>(
+        (CommonResponse<List<Pet>>) ResponseUtils.response(null, pet),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
