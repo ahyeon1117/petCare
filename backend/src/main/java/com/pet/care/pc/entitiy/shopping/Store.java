@@ -1,7 +1,10 @@
 package com.pet.care.pc.entitiy.shopping;
 
 import com.pet.care.pc.entitiy.user.Users;
+import com.pet.care.pc.enums.ApproveStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -29,5 +32,9 @@ public class Store {
 
   private String name;
   private String description;
+
+  @Enumerated(EnumType.STRING)
+  private ApproveStatus status = ApproveStatus.WAIT;
+
   private String url;
 }
