@@ -4,6 +4,7 @@ import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.entitiy.post.Posts;
 import com.pet.care.pc.entitiy.shopping.order.Orders;
 import com.pet.care.pc.entitiy.user.id.UserId;
+import com.pet.care.pc.enums.MembershipGrade;
 import com.pet.care.pc.security.oauth.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -78,6 +79,7 @@ public class Users {
   private String passwd;
 
   private String name;
+  private MembershipGrade grade;
 
   @CreatedDate
   private LocalDateTime createDate;

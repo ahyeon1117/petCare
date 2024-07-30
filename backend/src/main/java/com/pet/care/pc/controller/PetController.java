@@ -1,7 +1,7 @@
 package com.pet.care.pc.controller;
 
 import com.pet.care.pc.dto.api.CommonResponse;
-import com.pet.care.pc.dto.api.PetSaveRequest;
+import com.pet.care.pc.dto.api.req.PetSaveRequest;
 import com.pet.care.pc.entitiy.pet.Pet;
 import com.pet.care.pc.enums.ResponseStatus;
 import com.pet.care.pc.redis.jwt.JwtTokenProvider;
@@ -31,7 +31,7 @@ public class PetController {
   @Autowired
   private JwtTokenProvider jwtUtils;
 
-  @PostMapping(value = "/")
+  @PostMapping
   public ResponseEntity<CommonResponse<String>> save(
     @RequestBody PetSaveRequest req
   ) {

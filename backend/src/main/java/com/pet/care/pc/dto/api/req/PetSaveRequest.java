@@ -1,7 +1,6 @@
-package com.pet.care.pc.dto.api;
+package com.pet.care.pc.dto.api.req;
 
 import com.pet.care.pc.enums.AnimalKind;
-import com.pet.care.pc.security.oauth.enums.Platform;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PetSaveRequest {
 
-  private String userId;
-  private Platform platform;
-  private long petId;
+  private String name;
   private Integer age;
   private String gender;
   private String kind;
