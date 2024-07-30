@@ -2,6 +2,7 @@ package com.pet.care.pc.entitiy.post;
 
 import com.pet.care.pc.entitiy.user.Users;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,10 +26,10 @@ public class PostComments {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Posts posts;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Users users;
 
   @Lob

@@ -2,6 +2,7 @@ package com.pet.care.pc.entitiy.post;
 
 import com.pet.care.pc.entitiy.user.Users;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,7 +22,7 @@ public class Posts {
   private String title;
   private String body;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumns(
     {
       @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
