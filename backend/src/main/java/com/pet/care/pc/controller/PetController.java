@@ -3,6 +3,7 @@ package com.pet.care.pc.controller;
 import com.pet.care.pc.dto.api.CommonResponse;
 import com.pet.care.pc.dto.api.PetSaveRequest;
 import com.pet.care.pc.entitiy.pet.Pet;
+import com.pet.care.pc.enums.ResponseStatus;
 import com.pet.care.pc.redis.jwt.JwtTokenProvider;
 import com.pet.care.pc.service.PetService;
 import com.pet.care.pc.utils.ResponseUtils;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@SuppressWarnings("unchecked")
 @RequestMapping("/api/v1/pet")
 public class PetController {
 
@@ -40,13 +40,21 @@ public class PetController {
     try {
       service.save(pet);
       return new ResponseEntity<>(
-        (CommonResponse<String>) ResponseUtils.response(null, "success"),
+        new CommonResponse<String>(
+          200,
+          ResponseStatus.SUCCESS.toString(),
+          null
+        ),
         HttpStatusCode.valueOf(200)
       );
     } catch (Exception e) {
       // TODO: handle exception
       return new ResponseEntity<>(
-        (CommonResponse<String>) ResponseUtils.response(null, "fail"),
+        new CommonResponse<String>(
+          400,
+          ResponseStatus.FAILURE.toString(),
+          e.getMessage()
+        ),
         HttpStatusCode.valueOf(400)
       );
     }
@@ -68,7 +76,7 @@ public class PetController {
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (CommonResponse<List<Pet>>) ResponseUtils.response(null, data),
+        new CommonResponse<List<Pet>>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -84,11 +92,11 @@ public class PetController {
   )
   public ResponseEntity<CommonResponse<List<Pet>>> findAll() {
     try {
-      List<Pet> pet = service.findAll();
+      List<Pet> data = service.findAll();
 
-      int resCode = ResponseUtils.getResCode(pet);
+      int resCode = ResponseUtils.getResCode(data);
       return new ResponseEntity<>(
-        (CommonResponse<List<Pet>>) ResponseUtils.response(null, pet),
+        new CommonResponse<List<Pet>>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
