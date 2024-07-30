@@ -21,5 +21,8 @@ public class Products {
 
   private String name;
   private String price;
+
+  private String kind;
+
   private String description;
 }
