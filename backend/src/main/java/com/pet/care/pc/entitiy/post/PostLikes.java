@@ -6,30 +6,31 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
+import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
-@Data
+@Getter
 @Entity
-public class Posts {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PostLikes {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String title;
-  private String body;
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Posts posts;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumns(
-    {
-      @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-      @JoinColumn(name = "platform", referencedColumnName = "platform"),
-    }
-  )
-  private Users user;
+  private Users users;
 
-  private String createAt;
+  @CreatedDate
+  private LocalDateTime created_at;
 }

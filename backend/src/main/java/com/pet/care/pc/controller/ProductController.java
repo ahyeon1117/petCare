@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@SuppressWarnings("unchecked")
 @RequestMapping("/api/v1/product")
 public class ProductController {
 
@@ -35,7 +34,7 @@ public class ProductController {
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (CommonResponse<List<Products>>) ResponseUtils.response(null, data),
+        new CommonResponse<List<Products>>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
@@ -54,7 +53,7 @@ public class ProductController {
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(
-        (CommonResponse<Products>) ResponseUtils.response(null, data),
+        new CommonResponse<Products>(resCode, data, null),
         HttpStatusCode.valueOf(resCode)
       );
     } catch (Exception e) {
