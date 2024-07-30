@@ -30,6 +30,5 @@ public class Posts {
   )
   private Users user;
 
-  private Long postLike;
   private String createAt;
 }
