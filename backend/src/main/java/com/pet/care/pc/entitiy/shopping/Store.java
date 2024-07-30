@@ -2,6 +2,7 @@ package com.pet.care.pc.entitiy.shopping;
 
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.ApproveStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,7 +21,7 @@ public class Store {
   @Id
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumns(
     {
       @JoinColumn(name = "user_id", referencedColumnName = "user_id"),

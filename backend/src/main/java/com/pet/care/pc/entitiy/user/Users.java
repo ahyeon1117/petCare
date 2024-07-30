@@ -18,13 +18,14 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
@@ -79,10 +80,13 @@ public class Users {
   private String passwd;
 
   private String name;
-  private MembershipGrade grade;
+  private MembershipGrade membershipGrade;
 
   @CreatedDate
-  private LocalDateTime createDate;
+  private LocalDate createDate;
+
+  @LastModifiedDate
+  private LocalDate modifyDate;
 
   @Column(nullable = false)
   @Enumerated(value = EnumType.STRING)
