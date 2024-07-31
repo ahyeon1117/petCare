@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Data;
 
 @Data
@@ -22,13 +23,16 @@ public class Product {
   @JoinColumn(name = "store_id", nullable = false)
   private Store store; // FK
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(
+    mappedBy = "product",
+    fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL
+  )
   @NotNull
-  private ProductImg productImg;
+  private List<ProductImg> productImg;
 
   private String name;
   private String price;
-  private String img;
 
   private String kind;
 

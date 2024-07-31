@@ -3,6 +3,7 @@ package com.pet.care.pc.entitiy.pet;
 import com.pet.care.pc.entitiy.user.Users;
 import com.pet.care.pc.enums.AnimalKind;
 import com.pet.care.pc.enums.Gender;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -45,6 +46,15 @@ public class Pet {
   @Id
   @NotNull
   private String name;
+
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private PetHealth petHealth;
+
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private PetImg petImg;
+
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private PetTendency petTendency;
 
   @NotNull
   private Integer age;

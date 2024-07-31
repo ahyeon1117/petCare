@@ -1,0 +1,55 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.care.pc.dao.mapper.CartMapper">
+  <select id="findByUserId" resultType="Cart">
+    SELECT
+      *
+    FROM 
+      cart
+    WHERE
+      user_id = ${userId}
+    AND
+      platform = ${platform}
+    ORDER BY name ASC
+  </select>
+  <select id="deleteByUserIdAndProductId" resultType="int">
+    SELECT
+      *
+    FROM 
+      cart
+    WHERE
+      user_id = ${userId}
+    AND
+      platform = ${platform}
+    AND
+      product_id = ${productId}
+    ORDER BY name ASC
+  </select>
+
+  <select id="save" resultType="int">
+    INSERT INTO cart ( 
+        user_id, 
+        platform, 
+        product_id, 
+        quantity
+    ) VALUES 
+    <foreach collection="list" item="item" index="index" separator=", ">
+      (
+      #{item.userId}
+      , #{item.platform}
+      , #{item.productId}
+      , #{item.quantity}
+      )
+    </foreach>
+    ON CONFLICT ( 
+      userId,
+      platform,
+      productId
+    )
+    DO UPDATE SET 
+      userId = excluded.userId,
+      platform = excluded.platform,
+      productId = excluded.productId,
+      quantity = excluded.quantity
+  </select>
+
+</mapper>

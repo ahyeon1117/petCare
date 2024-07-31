@@ -2,9 +2,10 @@ package com.pet.care.pc.entitiy.pet;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,10 +15,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class PetImg {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "pet_img_seq_gen")
-  private Long seq;
-
-  private Long petId;
+  @OneToOne(fetch = FetchType.LAZY)
+  @NotNull
+  private Pet pet;
 
   private String imgPath;
 }

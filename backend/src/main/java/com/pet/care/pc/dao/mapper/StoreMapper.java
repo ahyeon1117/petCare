@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface StoreMapper {
-  List<Store> findByUser(
+  List<Store> findByUserId(
     @Param("userId") String userId,
     @Param("platform") String platform
   );

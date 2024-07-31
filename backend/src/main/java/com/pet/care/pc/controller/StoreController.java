@@ -50,10 +50,14 @@ public class StoreController {
     }
   }
 
-  @GetMapping
-  public ResponseEntity<CommonResponse<List<Store>>> findAll() {
+  public ResponseEntity<CommonResponse<List<Store>>> findByUser(
+    HttpServletRequest httpServletRequest
+  ) {
     try {
-      List<Store> data = service.findByAll();
+      String userId = jwtUtils.getUid(
+        jwtUtils.resolveToken(httpServletRequest)
+      );
+      List<Store> data = service.findByUserId(userId);
       int resCode = ResponseUtils.getResCode(data);
       return new ResponseEntity<>(
         new CommonResponse<List<Store>>(resCode, data, null),
@@ -64,15 +68,10 @@ public class StoreController {
     }
   }
 
-  @GetMapping("user")
-  public ResponseEntity<CommonResponse<List<Store>>> findByUser(
-    HttpServletRequest httpServletRequest
-  ) {
+  @GetMapping("all")
+  public ResponseEntity<CommonResponse<List<Store>>> findAll() {
     try {
-      String userId = jwtUtils.getUid(
-        jwtUtils.resolveToken(httpServletRequest)
-      );
-      List<Store> data = service.findByUser(userId);
+      List<Store> data = service.findByAll();
       int resCode = ResponseUtils.getResCode(data);
       return new ResponseEntity<>(
         new CommonResponse<List<Store>>(resCode, data, null),
