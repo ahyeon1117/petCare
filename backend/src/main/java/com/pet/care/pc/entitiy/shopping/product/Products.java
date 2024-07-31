@@ -28,7 +28,6 @@ public class Products {
 
   private String name;
   private String price;
-  private String img;
 
   private String kind;
 
