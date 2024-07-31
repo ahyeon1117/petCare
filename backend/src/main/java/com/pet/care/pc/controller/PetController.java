@@ -72,7 +72,7 @@ public class PetController {
       String userId = jwtUtils.getUid(
         jwtUtils.resolveToken(httpServletRequest)
       );
-      List<Pet> data = service.findByUser(userId);
+      List<Pet> data = service.findByUserId(userId);
       int resCode = ResponseUtils.getResCode(data);
 
       return new ResponseEntity<>(

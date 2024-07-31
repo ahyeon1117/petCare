@@ -3,6 +3,7 @@ package com.pet.care.pc.service;
 import com.pet.care.pc.dao.mapper.StoreMapper;
 import com.pet.care.pc.dao.repository.StoreRepository;
 import com.pet.care.pc.entitiy.shopping.Store;
+import com.pet.care.pc.entitiy.user.id.UserId;
 import com.pet.care.pc.utils.Utils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class StoreService {
     return storeRepository.findAll();
   }
 
-  public List<Store> findByUser(String userId) {
-    String[] splitArr = Utils.splitUnderscore(userId);
-    return mapper.findByUser(splitArr[0], splitArr[1]);
+  public List<Store> findByUserId(String param) {
+    UserId userId = Utils.converUserId(param);
+    return mapper.findByUserId(userId.getUserId(), userId.getPlatform());
   }
 }
